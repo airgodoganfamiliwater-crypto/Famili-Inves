@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="ikon-512.png">
+<title>Dashboard FAMILI WATER</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --primary:#2563eb;
+}
+body.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#1f2937;
+  --primary:#3b82f6;
+}
+
+body{
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg);
+  color:var(--text);
+  padding-bottom:100px;
+}
+
+/* ===== HEADER ===== */
+.header{
+  height:150px;
+  background:linear-gradient(135deg,var(--primary),#1e40af);
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  margin:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+.card.overlap{
+  margin-top:-70px;
+  text-align:center;
+}
+
+/* ===== LOGO ===== */
+.logo{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-top:-80px;
+  border:6px solid var(--card);
+  background:#fff;
+}
+.brand{
+  font-size:20px;
+  font-weight:700;
+  margin-top:8px;
+}
+
+/* ===== PROFILE SUMMARY ===== */
+.profile-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.avatar{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--border);
+}
+.stats{
+  text-align:left;
+  font-size:13px;
+}
+.stats b{
+  font-size:16px;
+  display:block;
+}
+.positive{color:#16a34a}
+.negative{color:#16a34a}
+
+/* ===== HERO ===== */
+.slider{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+}
+.slider img{
+  width:100%;
+  max-width:300px;
+  aspect-ratio:3/2;
+  object-fit:cover;
+  border-radius:14px;
+  scroll-snap-align:start;
+}
+
+.noted-text{
+  white-space: pre-line;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+#cardPenjualanHariIni{
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* denyut 0.5 dtk – diam 1 dtk – ulang */
+.pulse{
+  animation:pulseAnim 1.5s infinite;
+}
+
+@keyframes pulseAnim{
+  0%{transform:scale(1)}
+  20%{transform:scale(1.03)}
+  40%{transform:scale(1)}
+  100%{transform:scale(1)}
+}
+
+/* ===== CHART ===== */
+.chart-title{
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+.chart-canvas{
+  width:100%;
+  height:140px;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:62px;
+  background:var(--card);
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:100;
+}
+
+.nav-bottom-line{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:30px;                 /* lebih tipis */
+  background:linear-gradient(
+    to right,
+    #0d47a1,
+    #1976d2,
+    #0d47a1
+  );
+}
+
+.nav-item{
+  flex:1;
+  text-align:center;
+  text-decoration:none;
+  color:white;
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  z-index: 400;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.nav-item svg{
+  width:20px;
+  height:20px;
+  background:linear-gradient(
+  145deg,
+  #0b3f8a,
+  #1976d2
+);
+border:1px solid rgba(255,255,255,.15);
+  fill:#fff;
+  border-radius:50%;
+  padding:10px;        /* padding lebih kecil */
+  box-shadow:0 8px 18px rgba(37,99,235,.45);
+}
+
+.nav-item.active{color:var(--primary)}
+
+.nav-item.home{
+  position:relative;
+  top:-10px;
+}
+
+.nav-item.home svg{
+  width:48px;
+  height:48px;
+  background:linear-gradient(
+  to right,
+  #0d47a1 0%,
+  #1e88e5 50%,
+  #0d47a1 100%
+);
+  fill:#fff;
+  border-radius:50%;
+  padding:12px;
+  box-shadow:
+    0 10px 25px rgba(13,71,161,.45),
+    inset 0 -4px 8px rgba(255,255,255,.15);
+}
+
+.nav-item.home span{
+  display:none;
+}
+
+/* ===== SPLASH SCREEN ===== */
+#splash{
+  position:fixed;
+  inset:0;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  animation:fadeOut .6s ease forwards;
+  animation-delay:1.8s;
+}
+
+#splash img{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:#fff;
+  border:4px solid rgba(37,99,235,.25);
+  box-shadow:0 20px 45px rgba(37,99,235,.35);
+
+  animation:logoSplash 1.5s ease forwards;
+}
+
+/* logo muncul + mutar 360 */
+@keyframes logoSplash{
+  from{
+    transform:scale(.3) rotate(0deg);
+    opacity:0;
+  }
+  to{
+    transform:scale(1) rotate(360deg);
+    opacity:1;
+  }
+}
+
+/* splash menghilang */
+@keyframes fadeOut{
+  to{
+    opacity:0;
+    visibility:hidden;
+  }
+}
+</style>
+</head>
+
+<body>
+  <!-- ===== SPLASH SCREEN ===== -->
+<div id="splash">
+  <img src="logofw.png" alt="Logo FAMILI WATER">
+</div>
+
+<div class="header"></div>
+
+<!-- ===== CARD 1 (MENIMPA HEADER) ===== -->
+<div class="card overlap">
+  <img src="Logofw.png" class="logo">
+  <div class="brand">FAMILI WATER</div>
+  
+  <div id="greetingText" style="color:var(--muted);margin-bottom:10px">
+    Memuat...
+  </div>
+  
+  <div id="todayDate" style="color:var(--muted);font-size:13px;"></div>
+  
+  <div class="card">
+  <div class="profile-row">
+    <img id="avatar" class="avatar" src="profil.png">
+    <div class="stats">
+      <small>Total Investasi</small>
+      <b id="investasi">-</b>
+      <span id="returnValue">-</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== CARD 3 (HERO) ===== -->
+<div class="card">
+  <div class="slider">
+    <img src="hero1.png">
+    <img src="hero2.png">
+  </div>
+</div>
+  
+<!-- ===== CARD 4 (GRAFIK) ===== -->
+<div class="card">
+  <div class="card pulse" id="cardPenjualan">
+  <small style="color:var(--muted)">Penjualan Hari Ini</small>
+
+  <div id="jumlahPenjualan" class="stat">-</div>
+
+  <div id="omsetHariIni" style="font-weight:600;margin-top:4px">
+    -
+  </div>
+</div>
+
+  <small class="chart-title">Grafik Penjualan</small>
+<canvas id="salesChart" class="chart-canvas"></canvas>
+</div>
+
+<!-- ===== NOTED ===== -->
+<div id="notedList" style="margin-top:10px;font-size:14px;">
+    Memuat noted...
+  </div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-bottom-line"></div>
+  <a href="portofolio.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/></svg>
+    <span>Portofolio</span>
+  </a>
+  <a href="penjualan.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M4 19h4V9H4zm6 0h4V5h-4zm6 0h4v-7h-4z"/></svg>
+    <span>Penjualan</span>
+  </a>
+  <a href="index.html" class="nav-item home active">
+    <svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10h-5v-6H9v6H4z"/></svg>
+  </a>
+  <a href="neraca.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M6 8h12l2 7-3 5h-3l-2-3h-4l-2 3H3L1 15z"/></svg>
+    <span>Neraca</span>
+  </a>
+  <a href="profil.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm-7 9a7 7 0 0 1 14 0"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+<script>
+/* ===== SPLASH 1 JAM SEKALI ===== */
+const SPLASH_KEY = "lastSplashTime";
+const SPLASH_INTERVAL = 60 * 60 * 1000; // 1 jam
+
+const lastSplash = localStorage.getItem(SPLASH_KEY);
+const now = Date.now();
+
+if(!lastSplash || now - lastSplash > SPLASH_INTERVAL){
+  localStorage.setItem(SPLASH_KEY, now);
+}else{
+  const splash = document.getElementById("splash");
+  if(splash) splash.remove();
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+/* ===== AUTH ===== */
+if(localStorage.getItem("login")!=="true"){
+  location.href="login.html";
+}
+
+/* ===== THEME ===== */
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+
+/* ===== PROFILE IMAGE ===== */
+const savedImg = localStorage.getItem("profileImg");
+if(savedImg){
+  document.getElementById("avatar").src = savedImg;
+}
+
+/* ===== CONFIG ===== */
+const SHEET_ID="1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
+const AKUN_URL=`https://opensheet.elk.sh/${SHEET_ID}/Akun`;
+const PENJUALAN_URL=`https://opensheet.elk.sh/${SHEET_ID}/Penjualan`;
+const NOTED_URL = `https://opensheet.elk.sh/${SHEET_ID}/Noted`;
+
+const email=localStorage.getItem("loginEmail");
+const password=localStorage.getItem("loginPassword");
+
+/* ===== HELPER ===== */
+function rupiah(n){return Number(n||0).toLocaleString("id-ID");}
+function getGreeting(){
+  const h=new Date().getHours();
+  if(h<11) return "Selamat Pagi";
+  if(h<15) return "Selamat Siang";
+  if(h<18) return "Selamat Sore";
+  return "Selamat Malam";
+}
+
+/* ===== TANGGAL ===== */
+function formatTanggalIndonesia(date){
+  const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+  const bulan = [
+    "Januari","Februari","Maret","April","Mei","Juni",
+    "Juli","Agustus","September","Oktober","November","Desember"
+  ];
+
+  return `${hari[date.getDay()]}, ${date.getDate()} ${bulan[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+/* ===== LOAD AKUN ===== */
+fetch(AKUN_URL).then(r=>r.json()).then(data=>{
+  const akun=data.find(d=>d.Email===email && d.Password===password);
+  if(!akun) return;
+
+  document.getElementById("greetingText").innerText =
+    `${getGreeting()}, ${akun.Nama}`;
+
+  document.getElementById("investasi").innerText =
+    "Rp " + rupiah(akun.Portofolio);
+  
+  document.getElementById("todayDate").innerText =
+  formatTanggalIndonesia(new Date());
+
+  const sign = Number(akun.Return)>=0 ? "+" : "";
+  const ret = document.getElementById("returnValue");
+  ret.innerText = `Rp ${rupiah(akun.ROI)} (${sign}${akun.Return})`;
+  ret.className = Number(akun.Return)>=0 ? "positive" : "negative";
+});
+
+/* ===== NOTED ===== */
+fetch(NOTED_URL)
+.then(r => r.json())
+.then(data => {
+  const box = document.getElementById("notedList");
+
+  if(!data || !data.length){
+    box.innerHTML = "<em>Tidak ada noted</em>";
+    return;
+  }
+
+  box.innerHTML = data.map(d => `
+    <div class="card">
+      <small style="color:var(--muted)">Noted</small>
+      <div style="margin-top:6px;font-size:13px;color:var(--muted)">
+        Tanggal: ${d.Tanggal}
+      </div>
+      <div class="noted-text" style="margin-top:10px">
+        ${d.Noted || ""}
+      </div>
+    </div>
+  `).join("");
+});
+
+/* ===== PENJUALAN TERAKHIR ===== */
+fetch(PENJUALAN_URL)
+.then(r => r.json())
+.then(data => {
+
+  if (!data || data.length === 0) return;
+
+  const last = data[data.length - 1];
+
+  // Penjualan (angka biasa)
+  document.getElementById("jumlahPenjualan").innerText =
+    last.Penjualan || 0;
+
+  // Margin (SUDAH format Rp dari Google Sheet)
+  document.getElementById("omsetHariIni").innerText =
+    last.Margin || "Rp. 0";
+  
+  document.getElementById("cardPenjualan")
+.addEventListener("click", () => {
+  window.location.href = "penjualan.html";
+});
+});
+
+/* ===== CHART ===== */
+fetch(PENJUALAN_URL).then(r => r.json()).then(data => {
+  const ctx = salesChart.getContext("2d");
+
+  // gradient background
+  const grad = ctx.createLinearGradient(0, 0, 0, 180);
+  grad.addColorStop(0, "rgba(37,99,235,.35)");
+  grad.addColorStop(1, "rgba(37,99,235,0)");
+
+  const labels = data.map(d => d.Tanggal);
+  const values = data.map(d => Number(d.Penjualan || 0));
+
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        borderColor: "#2563eb",
+        backgroundColor: grad,
+        borderWidth: 3,
+        tension: 0.45,
+        fill: true,
+
+        /* === TITIK INTERAKTIF === */
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        pointHitRadius: 15,
+        pointBackgroundColor: "#2563eb",
+        pointBorderColor: "#fff",
+        pointBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+
+      /* animasi muncul titik satu-satu */
+      animation: {
+        x: {
+          type: 'number',
+          easing: 'easeOutQuart',
+          from: NaN,
+          delay(ctx) {
+            return ctx.dataIndex * 150; // delay tiap titik 0.15 detik
+          }
+        },
+        y: {
+          type: 'number',
+          easing: 'easeOutQuart',
+          from: NaN,
+          delay(ctx) {
+            return ctx.dataIndex * 150;
+          }
+        }
+      },
+
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          enabled: true,
+          callbacks: {
+            label: (ctx) => `Penjualan: ${ctx.raw}`
+          }
+        }
+      },
+
+      interaction: {
+        mode: "nearest",
+        intersect: false
+      },
+
+      scales: {
+        x: { display: false },
+        y: { display: false }
+      }
+    }
+  });
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then(() => console.log("PWA Service Worker aktif"))
+      .catch(err => console.log("SW gagal:", err));
+  });
+}
+</script>
+</body>
+</html>

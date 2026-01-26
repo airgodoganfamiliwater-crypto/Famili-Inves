@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="ikon-512.png">
+<title>Statement Bulanan</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{font-family:system-ui;background:#f4f6f8;margin:0;padding:20px;}
+.card{background:#fff;border-radius:16px;padding:20px;margin-bottom:20px;box-shadow:0 10px 25px rgba(0,0,0,.08);}
+h2{margin:0 0 10px}
+.item-row{display:flex;justify-content:space-between;margin:4px 0;}
+.total-row{font-weight:bold;margin-top:10px;}
+.select-month{padding:6px;margin-bottom:10px;}
+.section-title{margin-top:20px;font-weight:bold;}
+canvas{margin-top:20px;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Statement Perusahaan</h2>
+
+  <div class="section-title">Bulan Aktif: <span id="activeMonth"></span></div>
+
+  <div id="incomeSection">
+    <div class="section-title">INCOME</div>
+    <div id="incomeList"></div>
+  </div>
+
+  <div id="expenseSection">
+    <div class="section-title">EXPENSES</div>
+    <div id="expenseList"></div>
+  </div>
+
+  <div class="total-row">
+    <span>Total Expenses:</span>
+    <span id="totalExpense">0</span>
+  </div>
+
+  <div class="total-row">
+    <span>Profit / Loss:</span>
+    <span id="profit">0</span>
+  </div>
+
+  <div class="section-title">Filter Bulan Lain</div>
+  <label for="monthSelect">Pilih Bulan:</label>
+  <select id="monthSelect" class="select-month">
+    <option value="Januari">Januari</option>
+    <option value="Februari">Februari</option>
+    <option value="Maret">Maret</option>
+    <option value="April">April</option>
+    <option value="Mei">Mei</option>
+    <option value="Juni">Juni</option>
+    <option value="Juli">Juli</option>
+    <option value="Agustus">Agustus</option>
+    <option value="September">September</option>
+    <option value="Oktober">Oktober</option>
+    <option value="November">November</option>
+    <option value="Desember">Desember</option>
+  </select>
+
+  <div id="filterIncomeList"></div>
+  <div id="filterExpenseList"></div>
+  <div class="total-row">
+    <span>Total Expenses (Filter):</span>
+    <span id="filterTotalExpense">0</span>
+  </div>
+  <div class="total-row">
+    <span>Profit / Loss (Filter):</span>
+    <span id="filterProfit">0</span>
+  </div>
+
+  <canvas id="profitChart" width="400" height="200"></canvas>
+</div>
+
+<script>
+const SHEET_ID = "1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
+const SHEET_NAME = "Sharing Statement"; 
+const URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+
+const activeMonthEl = document.getElementById("activeMonth");
+const monthSelect = document.getElementById("monthSelect");
+const incomeList = document.getElementById("incomeList");
+const expenseList = document.getElementById("expenseList");
+const totalExpenseEl = document.getElementById("totalExpense");
+const profitEl = document.getElementById("profit");
+const filterIncomeList = document.getElementById("filterIncomeList");
+const filterExpenseList = document.getElementById("filterExpenseList");
+const filterTotalExpense = document.getElementById("filterTotalExpense");
+const filterProfit = document.getElementById("filterProfit");
+const profitChartEl = document.getElementById("profitChart");
+
+const months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const currentMonth = months[new Date().getMonth()];
+
+let dataSheet = [];
+
+// format rupiah
+function rupiah(n){return Number(n||0).toLocaleString("id-ID");}
+
+// load data
+fetch(URL)
+  .then(r=>r.json())
+  .then(data=>{
+    dataSheet = data;
+    activeMonthEl.innerText = currentMonth;
+    renderMonth(currentMonth, incomeList, expenseList, totalExpenseEl, profitEl);
+    renderProfitChart();
+  });
+
+function renderMonth(month, incomeEl, expenseEl, totalExpEl, profitEl){
+  incomeEl.innerHTML = "";
+  expenseEl.innerHTML = "";
+  let income=0, expense=0;
+
+  dataSheet.forEach(d=>{
+    const item = d[month + " Item"];
+    const value = Number(d[month + " Nilai"]||0);
+
+    if(!item || value===0) return;
+
+    if(d.Kategori==="INCOME"){
+      income += value;
+      incomeEl.innerHTML += `<div class="item-row"><span>${item}</span><span>${rupiah(value)}</span></div>`;
+    } else if(d.Kategori==="EXPENSES"){
+      expense += value;
+      expenseEl.innerHTML += `<div class="item-row"><span>${item}</span><span>${rupiah(value)}</span></div>`;
+    }
+  });
+
+  totalExpEl.innerText = rupiah(expense);
+  profitEl.innerText = rupiah(income-expense);
+}
+
+// filter bulan lain
+monthSelect.addEventListener("change", e=>{
+  renderMonth(e.target.value, filterIncomeList, filterExpenseList, filterTotalExpense, filterProfit);
+});
+
+// grafik profit/loss
+function renderProfitChart(){
+  const profits = months.map(m=>{
+    let income=0, expense=0;
+    dataSheet.forEach(d=>{
+      const value = Number(d[m + " Nilai"]||0);
+      if(d.Kategori==="INCOME") income += value;
+      else if(d.Kategori==="EXPENSES") expense += value;
+    });
+    return income-expense;
+  });
+
+  new Chart(profitChartEl,{
+    type:'line',
+    data:{
+      labels: months,
+      datasets:[{
+        label:'Profit / Loss',
+        data: profits,
+        borderColor:'green',
+        backgroundColor:'rgba(0,255,0,0.1)',
+        fill:true,
+        tension:0.3
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{display:true},
+      },
+      scales:{
+        y:{beginAtZero:true}
+      }
+    }
+  });
+}
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then(() => console.log("PWA Service Worker aktif"))
+      .catch(err => console.log("SW gagal:", err));
+  });
+}
+</script>
+</body>
+</html>

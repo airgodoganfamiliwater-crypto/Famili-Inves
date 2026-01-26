@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="ikon-512.png">
+<title>Portofolio Investor</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --primary:#2563eb;
+}
+body.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#1f2937;
+  --primary:#3b82f6;
+}
+
+body{
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg);
+  color:var(--text);
+  padding-bottom:100px;
+  overflow-x:hidden;
+}
+
+/* ===== HEADER ===== */
+.header{
+  height:150px;
+  background:linear-gradient(135deg,var(--primary),#1e40af);
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:16px;
+  margin:16px auto 0 auto;
+  box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  max-width:96%;
+  box-sizing:border-box;
+  transition:0.2s all;
+}
+.card:hover{
+  box-shadow:0 12px 30px rgba(0,0,0,0.12);
+}
+
+
+/* ===== CARD PORTFOLIO ===== */
+.portfolio-summary{
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  margin:16px auto;
+  margin-top:-100px; /* menimpa header */
+  max-width:600px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+/* ===== PROFILE ROW ===== */
+.profile-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* FOTO PROFIL */
+.avatar{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--border);
+  background:#fff;
+  flex-shrink:0;
+}
+
+/* DATA PORTFOLIO */
+.stats{
+  text-align:left;
+  font-size:13px;
+}
+.stats b{
+  font-size:16px;
+  display:block;
+  margin-top:2px;
+}
+.stats small{
+  display:block;
+  color:var(--muted);
+}
+
+/* WARNA RETURN */
+.positive{color:#16a34a;}
+.negative{color:#dc2626;}
+
+/* ===== TABS ===== */
+.tabs{
+  display:flex;
+  justify-content:space-between;
+  margin:16px auto;
+  max-width:600px;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.tab-btn{
+  flex:1;
+  padding:10px 12px;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s all;
+}
+.tab-btn:hover{
+  background:var(--primary);
+  color:#fff;
+}
+.tab-btn.active{
+  background:var(--primary);
+  color:#fff;
+  box-shadow:0 4px 12px rgba(37,99,235,0.3);
+}
+
+/* ===== TAB CONTENT ===== */
+.tab-content{
+  display:none;
+  opacity:0;
+  transform:translateY(15px);
+  transition:0.4s all ease;
+}
+.tab-content.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/*=== TABLE ===*/
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+th,td{
+  padding:8px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+}
+th{background:#f1f5f9}
+.total{font-weight:bold}
+
+/* ===== PROGRESS ===== */
+.timeline{
+  position:relative;
+  padding-left:30px;
+  margin-top:15px;
+}
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:10px;
+  top:0;
+  width:4px;
+  height:100%;
+  background:#e5e7eb;
+}
+.progress-line{
+  position:absolute;
+  left:10px;
+  top:0;
+  width:4px;
+  background:#3b82f6;
+}
+.step{
+  position:relative;
+  margin-bottom:20px;
+  cursor:pointer;
+}
+.circle{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:#9ca3af;
+  position:absolute;
+  left:-18px;
+  top:2px;
+}
+.step.done .circle{background:#22c55e}
+.step.ongoing .circle{
+  background:#f59e0b;
+  box-shadow:0 0 8px #f59e0b;
+}
+.step-title{font-weight:600}
+.desc-box{
+  margin-top:15px;
+  padding:12px;
+  background:#f1f5f9;
+  border-radius:10px;
+  white-space:pre-line;
+}
+
+/* ===== STATEMENT ===== */
+.section-title{
+  font-weight:700;
+  margin-top:15px;
+}
+.item-row{
+  display:flex;
+  justify-content:space-between;
+  margin:4px 0;
+}
+.hr{
+  height:1px;
+  background:#e5e7eb;
+  margin:10px 0;
+}
+.profit{
+  font-size:20px;
+  font-weight:700;
+}
+
+.btn-check{
+  display:block;
+  width:100%;
+  max-width:220px;
+  margin:16px auto 0;
+  padding:10px 14px;
+  border:none;
+  border-radius:12px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(37,99,235,0.3);
+  transition:0.2s all;
+  text-align:center;
+}
+.btn-check:hover{
+  opacity:0.9;
+  transform:translateY(-2px);
+}
+
+/*CEK BUTTIN*/
+.action-buttons{
+  display:flex;
+  justify-content:center;
+  gap:28px;
+  margin:40px 0;
+}
+
+.action-btn{
+  text-decoration:none;
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  transition:.3s ease;
+}
+
+.icon-circle{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:var(--card);
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  transition:.3s ease;
+}
+
+.icon-circle svg{
+  width:28px;
+  height:28px;
+  color:var(--primary);
+}
+
+.btn-title{
+  font-size:.9rem;
+  font-weight:600;
+  color:var(--text);
+}
+
+/* ===== HOVER ===== */
+.action-btn:hover .icon-circle{
+  transform:translateY(-4px);
+  box-shadow:0 12px 30px rgba(0,0,0,.15);
+  background:var(--primary);
+}
+
+.action-btn:hover svg{
+  color:#fff;
+}
+
+.action-btn:hover .btn-title{
+  color:var(--primary);
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .icon-circle{
+    width:56px;
+    height:56px;
+  }
+}
+
+/* ===== HERO ===== */
+.slider{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+}
+.slider img{
+  width:100%;
+  max-width:300px;
+  aspect-ratio:3/2;
+  object-fit:cover;
+  border-radius:14px;
+  scroll-snap-align:start;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:62px;
+  background:var(--card);
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:100;
+}
+
+.nav-bottom-line{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:30px;                 /* lebih tipis */
+  background:linear-gradient(
+    to right,
+    #0d47a1,
+    #1976d2,
+    #0d47a1
+  );
+}
+
+.nav-item{
+  flex:1;
+  text-align:center;
+  text-decoration:none;
+  color:white;
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  z-index: 400;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.nav-item svg{
+  width:20px;
+  height:20px;
+  background:linear-gradient(
+  145deg,
+  #0b3f8a,
+  #1976d2
+);
+border:1px solid rgba(255,255,255,.15);
+  fill:#fff;
+  border-radius:50%;
+  padding:10px;        /* padding lebih kecil */
+  box-shadow:0 8px 18px rgba(37,99,235,.45);
+}
+
+.nav-item.active {
+  color: orange;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.nav-item.home{
+  position:relative;
+  top:-10px;
+}
+
+.nav-item.home svg{
+  width:48px;
+  height:48px;
+  background:linear-gradient(
+  to right,
+  #0d47a1 0%,
+  #1e88e5 50%,
+  #0d47a1 100%
+);
+  fill:#fff;
+  border-radius:50%;
+  padding:12px;
+  box-shadow:
+    0 10px 25px rgba(13,71,161,.45),
+    inset 0 -4px 8px rgba(255,255,255,.15);
+}
+
+.nav-item.home span{
+  display:none;
+}
+</style>
+</head>
+
+<body>
+  <div class="header"></div>
+
+<!-- ===== CARD UTAMA ===== -->
+<div class="card overlap">
+
+
+<div class="card portfolio-summary">
+
+  <div class="profile-row">
+    <!-- FOTO PROFIL BULAT -->
+    <img id="avatar" class="avatar" src="profil.png" alt="Foto Profil">
+
+    <!-- DATA PORTOFOLIO -->
+    <div class="stats">
+      <small>Total Investasi</small>
+      <b id="investasi">-</b>
+
+      <small style="margin-top:8px">Jumlah Uang (ROI)</small>
+      <b id="roi">-</b>
+
+      <small style="margin-top:8px">Return</small>
+      <span id="return" class="">-</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== TABS ===== -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="roiCard">ROI Bulanan</button>
+  <button class="tab-btn" data-tab="statementCard">Statement</button>
+  <button class="tab-btn" data-tab="valuasiCard">Valuasi Asset</button>
+  <button class="tab-btn" data-tab="progressCard">Tracking Progress</button>
+</div>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div class="card">
+<div id="roiCard" class="tab-content card active">
+  <h2>ROI Bulanan</h2>
+  <div id="roiBulanan"></div>
+  <div class="hr"></div>
+  <div class="item-row total">
+    <span>Total ROI</span>
+    <span id="totalRoiBulanan">-</span>
+  </div>
+</div>
+
+<div id="statementCard" class="tab-content card">
+  <h2>Statement Bulan Ini</h2>
+  <div class="section-title">INCOME</div>
+  <div id="incomeList"></div>
+  <div class="hr"></div>
+  <div class="section-title">EXPENSES</div>
+  <div id="expenseList"></div>
+  <div class="hr"></div>
+  <div class="item-row total">
+    <span>Total Expenses</span>
+    <span id="totalExpense">-</span>
+  </div>
+  <div class="hr"></div>
+  <div class="item-row profit">
+    <span>Profit / Loss</span>
+    <span id="profit">-</span>
+  </div>
+  <!-- ===== CEK LENGKAP BUTTON ===== -->
+  <button class="btn-check" onclick="window.location.href='statement.html'">
+    Cek Lengkap
+  </button>
+</div>
+
+<div id="valuasiCard" class="tab-content card">
+  <h2>Valuasi Asset</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Assets</th>
+        <th>Qty</th>
+        <th>Current</th>
+      </tr>
+    </thead>
+    <tbody id="valuasiTable"></tbody>
+    <tfoot>
+      <tr class="total">
+        <td colspan="2">Total Asset</td>
+        <td id="totalAsset">-</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<div id="progressCard" class="tab-content card">
+  <h2>Tracking Progress</h2>
+  <div class="timeline">
+    <div id="progressLine" class="progress-line"></div>
+    <div id="progressList"></div>
+  </div>
+  <div id="progressDesc" class="desc-box">Memuat progress...</div>
+</div>
+</div>
+
+  <!-- ===== CEK BUTTON ===== -->
+<div class="action-buttons">
+  <!-- Perjanjian -->
+  <a href="perjanjian.html" class="action-btn">
+    <div class="icon-circle">
+      <!-- document icon -->
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"
+              stroke="currentColor" stroke-width="1.8"/>
+        <path d="M14 3v5h5"
+              stroke="currentColor" stroke-width="1.8"/>
+      </svg>
+    </div>
+    <span class="btn-title">Perjanjian</span>
+  </a>
+
+  <!-- Perusahaan -->
+  <a href="profilperusahaan.html" class="action-btn">
+    <div class="icon-circle">
+      <!-- building icon -->
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M3 21h18M6 21V7l6-4 6 4v14M9 10h.01M9 13h.01M9 16h.01M15 10h.01M15 13h.01M15 16h.01"
+              stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="btn-title">Perusahaan</span>
+  </a>
+</div>
+
+<!-- ===== CARD 3 (HERO) ===== -->
+<div class="card">
+  <div class="slider">
+    <img src="hero1.png">
+    <img src="hero2.png">
+  </div>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-bottom-line"></div>
+  <a href="portofolio.html" class="nav-item active">
+    <svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/></svg>
+    <span>Portofolio</span>
+  </a>
+  <a href="penjualan.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M4 19h4V9H4zm6 0h4V5h-4zm6 0h4v-7h-4z"/></svg>
+    <span>Penjualan</span>
+  </a>
+  <a href="index.html" class="nav-item home">
+    <svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10h-5v-6H9v6H4z"/></svg>
+  </a>
+  <a href="neraca.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M6 8h12l2 7-3 5h-3l-2-3h-4l-2 3H3L1 15z"/></svg>
+    <span>Neraca</span>
+  </a>
+  <a href="profil.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm-7 9a7 7 0 0 1 14 0"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+<script>
+/* ================= AUTH CHECK ================= */
+if(localStorage.getItem("login")!=="true"){
+  window.location.href="login.html";
+}
+
+/* ===== THEME ===== */
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+
+/* ===== PROFILE IMAGE ===== */
+const savedImg = localStorage.getItem("profileImg");
+if(savedImg){
+  document.getElementById("avatar").src = savedImg;
+}
+
+/* ================= CONFIG ================= */
+const SHEET_ID = "1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
+const AKUN_URL = `https://opensheet.elk.sh/${SHEET_ID}/Akun`;
+const VALUASI_URL = `https://opensheet.elk.sh/${SHEET_ID}/Valuasi`;
+const PROGRES_URL =
+`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=Progres`;
+const STATEMENT_URL=`https://opensheet.elk.sh/${SHEET_ID}/Statement`;
+
+const email = localStorage.getItem("loginEmail");
+const password = localStorage.getItem("loginPassword");
+const bulanList = [
+  "Januari","Februari","Maret","April","Mei","Juni",
+  "Juli","Agustus","September","Oktober","November","Desember"
+];
+
+function rupiah(n){
+  return Number(n||0).toLocaleString("id-ID");
+}
+
+/* ================= LOAD AKUN ================= */
+fetch(AKUN_URL)
+  .then(r=>r.json())
+  .then(data=>{
+    const akun = data.find(d =>
+      d.Email === email && d.Password === password
+    );
+
+    if(!akun){
+      alert("Data akun tidak ditemukan");
+      return;
+    }
+
+    document.getElementById("investasi").innerText =
+      "Rp " + rupiah(akun.Portofolio);
+
+    document.getElementById("roi").innerText =
+      "Rp " + rupiah(akun.ROI);
+
+    document.getElementById("return").innerText =
+      (akun.Return || 0) + " ";
+  });
+
+const tabButtons = document.querySelectorAll(".tab-btn");
+const tabContents = document.querySelectorAll(".tab-content");
+
+// Inisialisasi: tampilkan tab pertama
+tabContents.forEach((c, i) => {
+  if(i===0) {
+    c.style.display = "block";
+    setTimeout(()=>{c.classList.add("active");}, 20);
+  } else {
+    c.style.display = "none";
+  }
+});
+
+tabButtons.forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    // hapus active dari semua button
+    tabButtons.forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const targetId = btn.dataset.tab;
+
+    tabContents.forEach(c=>{
+      if(c.id === targetId){
+        // tampilkan tab yang dipilih
+        c.style.display="block";
+        setTimeout(()=>{c.classList.add("active");}, 20);
+      } else {
+        // sembunyikan tab lainnya
+        c.classList.remove("active");
+        setTimeout(()=>{c.style.display="none";}, 400); // biarkan transisi selesai
+      }
+    });
+  });
+});
+
+/* ================= LOAD VALUASI ================= */
+fetch(VALUASI_URL)
+  .then(r=>r.json())
+  .then(data=>{
+    const tbody=document.getElementById("valuasiTable");
+    let total=0;
+
+    data.forEach(d=>{
+      const current = Number(
+        String(d.Current||0).replace(/[^0-9]/g,"")
+      );
+
+      total+=current;
+
+      tbody.innerHTML+=`
+        <tr>
+          <td>${d.Assets||""}</td>
+          <td>${d.Qty||""}</td>
+          <td>Rp ${rupiah(current)}</td>
+        </tr>`;
+    });
+
+    document.getElementById("totalAsset").innerText =
+      "Rp " + rupiah(total);
+  });
+  
+  /* ================= LOAD PROGRESS ================= */
+let progressData=[];
+
+fetch(PROGRES_URL)
+.then(r=>r.text())
+.then(raw=>{
+  const json=JSON.parse(raw.substring(47).slice(0,-2));
+  const rows=json.table.rows;
+
+  let html="", activeIndex=0, activeDesc="";
+
+  rows.forEach((r,i)=>{
+    const title=r.c[0]?.v||"";
+    const desc=r.c[1]?.v||"";
+    const status=r.c[2]?.v||"";
+
+    progressData.push({desc});
+
+    if(status==="ONGOING"){
+      activeIndex=i;
+      activeDesc=desc;
+    }
+
+    html+=`
+      <div class="step ${status==="DONE"?"done":"ongoing"}" data-i="${i}">
+        <div class="circle"></div>
+        <div class="step-title">${title}</div>
+      </div>`;
+  });
+
+  progressList.innerHTML=html;
+  progressDesc.innerText=activeDesc||"Belum ada progress aktif";
+  drawLine(activeIndex);
+  enableClick();
+});
+
+function drawLine(i){
+  const steps=document.querySelectorAll(".step");
+  progressLine.style.height =
+    (steps[i]?.offsetTop||0)+10+"px";
+}
+
+function enableClick(){
+  document.querySelectorAll(".step").forEach(s=>{
+    s.onclick=()=>{
+      const i=s.dataset.i;
+      progressDesc.innerText=progressData[i].desc;
+      drawLine(i);
+    };
+  });
+}
+
+/* ================= LOAD STATEMENT ================= */
+fetch(STATEMENT_URL).then(r=>r.json()).then(data=>{
+  let income=0, expense=0;
+
+  data.forEach(d=>{
+    const v=Number(d.Nilai||0);
+    if(d.Kategori==="INCOME"){
+      income+=v;
+      incomeList.innerHTML+=`
+        <div class="item-row"><span>${d.Item}</span><span>${rupiah(v)}</span></div>`;
+    }
+    if(d.Kategori==="EXPENSES"){
+      expense+=v;
+      expenseList.innerHTML+=`
+        <div class="item-row"><span>${d.Item}</span><span>${rupiah(v)}</span></div>`;
+    }
+  });
+
+  totalExpense.innerText=rupiah(expense);
+  profit.innerText=rupiah(income-expense);
+});
+
+fetch(AKUN_URL)
+  .then(r => r.json())
+  .then(data => {
+
+    const akun = data.find(d =>
+      d.Email === email && d.Password === password
+    );
+
+    if(!akun) return;
+
+    let html = "";
+    let total = 0;
+
+    bulanList.forEach(bulan => {
+      const nilai = Number(
+        String(akun[bulan] || 0).replace(/[^0-9]/g,"")
+      );
+
+      if(nilai > 0){
+        total += nilai;
+        html += `
+          <div class="item-row">
+            <span>${bulan}</span>
+            <span>Rp ${rupiah(nilai)}</span>
+          </div>
+        `;
+      }
+    });
+
+    document.getElementById("roiBulanan").innerHTML =
+      html || "<small>Tidak ada data ROI bulanan</small>";
+
+    document.getElementById("totalRoiBulanan").innerText =
+      "Rp " + rupiah(total);
+  });
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then(() => console.log("PWA Service Worker aktif"))
+      .catch(err => console.log("SW gagal:", err));
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="ikon-512.png">
+<title>Profil Investor</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+:root{
+  --blue:#2563eb;
+  --dark-bg:#0b1220;
+  --dark-card:#111a2e;
+  --dark-border:#1e293b;
+  --dark-text:#e5e7eb;
+}
+
+/* RESET HOVER DEFAULT */
+*{ -webkit-tap-highlight-color: transparent; }
+
+body{
+  font-family:system-ui;
+  background:#f4f6f8;
+  margin:0;
+  padding:0;
+  transition:.3s;
+}
+
+/* HEADER KOSONG */
+.header{
+  height:140px;
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  border-bottom-left-radius:24px;
+  border-bottom-right-radius:24px;
+}
+
+.card.overlap{
+  margin-top:-70px; /* menimpa header */
+  text-align: center;
+}
+
+/* CARD UMUM */
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  margin: 16px 20px;
+  box-shadow:0 15px 35px rgba(0,0,0,.12);
+}
+
+/* PROFIL */
+.profile{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  cursor:pointer;
+}
+.profile-hint{
+  font-size:12px;
+  color:#64748b;
+  margin-top:6px;
+}
+.name{font-weight:700;font-size:18px;margin-top:10px}
+.stat{font-size:22px;font-weight:700;margin:6px 0;color:var(--blue)}
+small{color:#64748b}
+
+/* HERO */
+.hero{
+  width:100%;
+  aspect-ratio:3/1;
+  object-fit:cover;
+  border-radius:14px;
+  margin-bottom:14px;
+}
+
+/* TAB */
+.tab-btn{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  font-weight:600;
+  background:#f1f5f9;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.25s;
+}
+.tab-btn:hover{
+  background:#e2e8f0;
+  transform:translateX(4px);
+}
+
+.tab-content{
+  display:none;
+  margin-top:10px;
+  animation:slide .35s ease;
+}
+@keyframes slide{
+  from{opacity:0;transform:translateX(-10px)}
+  to{opacity:1;transform:none}
+}
+
+/* ROW */
+.row{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+.label{color:#64748b}
+.value{font-weight:600}
+
+/* BUTTON */
+.action-btn{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+.gray{background:#e5e7eb}
+.danger{background:#ef4444;color:#fff}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  color:#64748b;
+  margin:30px 0 20px;
+  font-size:13px;
+}
+
+/* DARK MODE FUTURISTIK */
+.dark{
+  background:var(--dark-bg);
+  color:var(--dark-text);
+}
+.dark .header{
+  background:linear-gradient(135deg,#1e3a8a,#020617);
+}
+.dark .card{
+  background:var(--dark-card);
+  box-shadow:0 20px 40px rgba(0,0,0,.5);
+}
+.dark small,
+.dark .label,
+.dark footer{
+  color:#94a3b8;
+}
+.dark .tab-btn{
+  background:#020617;
+  color:var(--dark-text);
+  border:1px solid var(--dark-border);
+}
+.dark .tab-btn:hover{
+  background:#020617;
+  border-color:var(--blue);
+}
+.dark .row{border-color:var(--dark-border)}
+
+/* GLASS POPUP */
+.popup{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.4);
+  backdrop-filter:blur(8px);
+}
+.popup-box{
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  padding:20px;
+  border-radius:16px;
+  color:#fff;
+  text-align:center;
+}
+.popup button{
+  margin-top:12px;
+  padding:10px 16px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+}
+.ok{background:#2563eb;color:#fff}
+.cancel{background:#64748b;color:#fff;margin-left:8px}
+</style>
+</head>
+
+<body>
+
+<div class="header"></div>
+
+<div class="card overlap">
+  <img src="profil.png" id="profileImg" class="profile">
+  <div class="profile-hint">Ubah foto profil</div>
+  <div class="name" id="nama">-</div>
+  <small>Total Investasi</small>
+  <div class="stat" id="investasi">-</div>
+</div>
+
+<div class="card">
+  <img src="sampul.png" class="hero">
+
+  <button class="tab-btn" onclick="openTab('profil')">👤 Profil Lengkap</button>
+  <div class="tab-content" id="profil">
+    <div class="row"><span class="label">Nama</span><span id="p_nama"></span></div>
+    <div class="row"><span class="label">Total Investasi</span><span id="p_invest"></span></div>
+    <div class="row"><span class="label">Aset</span><span id="p_aset"></span></div>
+    <div class="row"><span class="label">Rekening</span><span id="p_rekening"></span></div>
+    <div class="row"><span class="label">Email</span><span id="p_email"></span></div>
+  </div>
+
+  <button class="tab-btn" onclick="openTab('setting')">⚙️ Pengaturan</button>
+  <div class="tab-content" id="setting">
+    <button class="action-btn gray" onclick="toggleTheme()">🌗 Mode Terang / Gelap</button>
+    <button class="action-btn danger" onclick="logout()">🚪 Logout</button>
+  </div>
+<!--
+  <button class="tab-btn" onclick="location.href='game.html'">🎮 Game</button>
+  <button class="tab-btn" onclick="location.href='index.html'">🏠 Beranda</button> -->
+</div>
+
+<footer>Famili Water - Investor © 2026</footer>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <div>Ubah foto profil?</div>
+    <button class="ok" onclick="choosePhoto()">OK</button>
+    <button class="cancel" onclick="closePopup()">Batal</button>
+  </div>
+</div>
+
+<script>
+/* AUTH */
+if(localStorage.getItem("login")!=="true"){
+  location.href="login.html";
+}
+
+const SHEET_ID="1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
+const AKUN_URL=`https://opensheet.elk.sh/${SHEET_ID}/Akun`;
+const email=localStorage.getItem("loginEmail");
+const password=localStorage.getItem("loginPassword");
+
+function rupiah(n){return Number(n||0).toLocaleString("id-ID");}
+
+fetch(AKUN_URL).then(r=>r.json()).then(data=>{
+  const a=data.find(d=>d.Email===email && d.Password===password);
+  if(!a) return;
+  nama.innerText=a.Nama;
+  investasi.innerText="Rp "+rupiah(a.Portofolio);
+  p_nama.innerText=a.Nama;
+  p_invest.innerText="Rp "+rupiah(a.Portofolio);
+  p_aset.innerText=a.Asset;
+  p_rekening.innerText=a.Rekening;
+  p_email.innerText=a.Email;
+});
+
+/* TAB SINGLE */
+function openTab(id){
+  document.querySelectorAll(".tab-content").forEach(t=>{
+    t.style.display = (t.id===id && t.style.display!=="block") ? "block":"none";
+  });
+}
+
+/* THEME */
+if(localStorage.getItem("theme")==="dark") document.body.classList.add("dark");
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("theme",document.body.classList.contains("dark")?"dark":"light");
+}
+
+/* LOGOUT */
+function logout(){
+  localStorage.clear();
+  location.href="login.html";
+}
+
+/* FOTO PROFIL */
+const img=document.getElementById("profileImg");
+const saved=localStorage.getItem("profileImg");
+if(saved) img.src=saved;
+
+img.onclick=()=> document.getElementById("popup").style.display="flex";
+function closePopup(){document.getElementById("popup").style.display="none";}
+function choosePhoto(){
+  closePopup();
+  const i=document.createElement("input");
+  i.type="file"; i.accept="image/*";
+  i.onchange=e=>{
+    const r=new FileReader();
+    r.onload=()=>{img.src=r.result;localStorage.setItem("profileImg",r.result);}
+    r.readAsDataURL(e.target.files[0]);
+  };
+  i.click();
+}
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then(() => console.log("PWA Service Worker aktif"))
+      .catch(err => console.log("SW gagal:", err));
+  });
+}
+</script>
+<meta name="theme-color" content="#2563eb">
+</body>
+</html>

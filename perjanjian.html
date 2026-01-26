@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="ikon-512.png">
+<title>Perjanjian Investasi</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --primary:#2563eb;
+}
+body.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#1f2937;
+  --primary:#3b82f6;
+}
+
+body{
+  font-family:system-ui;
+  background:var(--bg);
+  margin:0;
+  padding:20px;
+  line-height:1.6;
+  color:var(--text);
+}
+
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:20px;
+  max-width:900px;
+  margin:auto;
+  position:relative; /* penting untuk TTD overlay */
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+h2,h3{
+  text-align:center;
+}
+
+.logo{
+  display:block;
+  margin:10px auto;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.section-title{
+  margin-top:20px;
+  font-weight:700;
+}
+
+ol{
+  padding-left:20px;
+  margin:5px 0 15px;
+}
+
+/* ===== SIGNATURE AREA ===== */
+.signature{
+  margin-top:80px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.sign-box{
+  width:45%;
+  text-align:center;
+}
+
+.sign-role{
+  font-weight:600;
+  margin-bottom:60px;
+}
+
+.sign-name{
+  font-weight:700;
+}
+
+/* ===== TTD OVERLAY ===== */
+.ttd-overlay{
+  position:absolute;
+  bottom:10px;        /* posisi paling bawah konten */
+  left:15px;          /* condong ke pihak pertama */
+  width:160px;
+  opacity:.9;
+}
+
+.ttd-overlay img{
+  width:100%;
+}
+
+/* WRAPPER */
+.back-wrap{
+  margin-top:32px;
+  display:flex;
+  justify-content:center;
+}
+
+/* BUTTON */
+.btn-back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:14px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:600;
+  font-size:0.95rem;
+  text-decoration:none;
+  box-shadow:0 8px 20px rgba(37,99,235,.35);
+  transition:all .25s ease;
+}
+
+/* HOVER */
+.btn-back:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 28px rgba(37,99,235,.45);
+  opacity:.95;
+}
+
+/* ACTIVE (KLIK) */
+.btn-back:active{
+  transform:translateY(-1px) scale(.98);
+  box-shadow:0 6px 12px rgba(37,99,235,.3);
+}
+
+/* DARK MODE TUNING */
+body.dark .btn-back{
+  box-shadow:0 8px 20px rgba(59,130,246,.4);
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <img src="Logofw.png" class="logo" alt="Logo">
+
+  <h2>Air Godogan - FAMILI WATER</h2>
+  <p style="text-align:center;">JL. LANGGENJATI KAMPUNG PARIS BAYUR LOR KARAWANG (+62) 85759995235<br>05 November 2025</p>
+
+  <h3>PERJANJIAN INVESTASI</h3>
+  <p style="text-align:center;">
+    Antara Abdul Faqih, pemilik dan pengelola Air Godogan – FAMILI WATER<br>
+    dan <span id="namaInvestor">(Nama Investor)</span>, Investor
+  </p>
+
+  <div class="section-title">BAB I – IDENTITAS PARA PIHAK</div>
+
+  <p><strong>Pasal 1 – Pihak Pertama</strong></p>
+  <ol>
+    <li>Nama: Abdul Faqih</li>
+    <li>Jabatan: Pemilik / Pengelola Usaha</li>
+    <li>Usaha: Air Godogan – FAMILI WATER</li>
+    <li>Alamat: Jl. Langgenjati Kampung Paris Desa Bayur Lor Kec. Cilamaya Kulon, Kab. Karawang</li>
+  </ol>
+
+  <p><strong>Pasal 2 – Pihak Kedua</strong></p>
+  <ol>
+    <li>Nama: <span id="namaInvestor2">(nama investor)</span></li>
+    <li>Jabatan: Investor</li>
+  </ol>
+
+  <div class="section-title">BAB II – OBJEK INVESTASI</div>
+
+  <p><strong>Pasal 3 – Modal Investasi</strong></p>
+  <ol>
+    <li>Pihak Kedua setuju menanamkan modal tunai sebesar Rp <span id="jumlahInvestasi">[jumlah inves]</span> ke Pihak Pertama untuk kegiatan usaha Air Godogan – FAMILI WATER.</li>
+    <li>Modal akan digunakan sepenuhnya untuk pengembangan dan operasional usaha.</li>
+  </ol>
+
+  <p><strong>Pasal 4 – Jangka Waktu</strong></p>
+  <ol>
+    <li>Perjanjian ini tidak memiliki jangka waktu tertentu.</li>
+    <li>Penarikan modal dapat dilakukan jika ada penggantinya, untuk menjaga kelangsungan usaha.</li>
+  </ol>
+
+  <div class="section-title">BAB III – BAGI HASIL</div>
+
+  <p><strong>Pasal 5 – Prinsip Bagi Hasil</strong></p>
+  <ol>
+    <li>Keuntungan dan kerugian dari usaha ditanggung bersama sesuai proporsi modal masing-masing pihak.</li>
+    <li>Bagi hasil dihitung setiap bulan atau periode tertentu dan diserahkan kepada Pihak Kedua.</li>
+  </ol>
+
+  <div class="section-title">BAB IV – HAK DAN KEWAJIBAN PARA PIHAK</div>
+
+  <p><strong>Pasal 6 – Hak Pihak Kedua</strong></p>
+  <ol>
+    <li>Memantau perkembangan usaha melalui laporan yang diberikan Pihak Pertama.</li>
+    <li>Memberikan masukan atau saran terkait pengelolaan usaha.</li>
+  </ol>
+
+  <p><strong>Pasal 7 – Kewajiban Pihak Kedua</strong></p>
+  <ol>
+    <li>Tidak ada kewajiban tambahan selain menanamkan modal.</li>
+  </ol>
+
+  <p><strong>Pasal 8 – Hak dan Kewajiban Pihak Pertama</strong></p>
+  <ol>
+    <li>Mengelola usaha sebaik mungkin.</li>
+    <li>Menjaga kepercayaan dan modal yang diberikan Pihak Kedua.</li>
+    <li>Mengembangkan usaha agar memberikan keuntungan maksimal bagi kedua pihak.</li>
+  </ol>
+
+  <div class="section-title">BAB V – PENARIKAN MODAL DAN TERMINASI</div>
+
+  <p><strong>Pasal 9 – Penarikan Modal</strong></p>
+  <ol>
+    <li>Pihak Kedua dapat menarik modalnya jika ada pihak pengganti yang siap menanamkan modal.</li>
+    <li>Penarikan modal dilakukan secara halus dan dengan pemberitahuan minimal 1 bulan sebelumnya.</li>
+  </ol>
+
+  <p><strong>Pasal 10 – Ketentuan Lain</strong></p>
+  <ol>
+    <li>Kerugian maupun keuntungan ditanggung bersama sesuai proporsi modal.</li>
+  </ol>
+
+  <div class="section-title">BAB VI – PENYELESAIAN SENGKETA</div>
+
+  <p><strong>Pasal 11 – Penyelesaian Sengketa</strong></p>
+  <ol>
+    <li>Perselisihan akan diselesaikan secara musyawarah.</li>
+    <li>Jika tidak tercapai kesepakatan, perselisihan diselesaikan sesuai hukum yang berlaku di Indonesia.</li>
+  </ol>
+
+  <div class="section-title">BAB VII – KETENTUAN LAIN-LAIN</div>
+
+  <p><strong>Pasal 12 – Kerahasiaan</strong></p>
+  <ol>
+    <li>Para pihak sepakat menjaga kerahasiaan informasi usaha.</li>
+  </ol>
+
+  <p><strong>Pasal 13 – Non-Kompetisi</strong></p>
+  <ol>
+    <li>Pihak Kedua tidak diperkenankan membuka usaha serupa yang dapat merugikan Air Godogan – FAMILI WATER selama menjadi investor.</li>
+  </ol>
+
+  <p><strong>Pasal 14 – Force Majeure</strong></p>
+  <ol>
+    <li>Para pihak dibebaskan dari kewajiban apabila terjadi hal-hal di luar kemampuan manusia, seperti bencana alam, kebakaran, atau peristiwa lain yang tidak terduga.</li>
+  </ol>
+
+  <div class="section-title">BAB VIII – PENUTUP</div>
+
+  <p><strong>Pasal 15 – Penandatanganan</strong></p>
+  <ol>
+    <li>Perjanjian dibuat dalam 2 (dua) rangkap, masing-masing pihak menerima 1 (satu) rangkap, dan berlaku sah sejak ditandatangani.</li>
+    <li>Dibuat di: Karawang, Rabu, 5 November 2025</li>
+  </ol>
+
+  <!-- TTD overlay -->
+<div class="ttd-overlay">
+  <img src="TTD.png" alt="Tanda Tangan">
+</div>
+
+<div class="signature">
+  <div class="sign-box">
+    <div class="sign-role">Pihak Pertama</div>
+    <div class="sign-name">Abdul Faqih</div>
+  </div>
+
+  <div class="sign-box">
+    <div class="sign-role">Pihak Kedua</div>
+    <div class="sign-name" id="namaInvestorSign">(Nama Investor)</div>
+  </div>
+</div>
+</div>
+
+<div class="back-wrap">
+  <a href="index.html" class="btn-back">
+    ← Kembali ke Beranda
+  </a>
+</div>
+<script>
+/* ===== AUTH ===== */
+if(localStorage.getItem("login")!=="true"){
+  location.href="login.html";
+}
+
+/* ===== THEME ===== */
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+
+const SHEET_ID = "1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
+const AKUN_URL = `https://opensheet.elk.sh/${SHEET_ID}/Akun`;
+const email = localStorage.getItem("loginEmail");
+const password = localStorage.getItem("loginPassword");
+
+fetch(AKUN_URL)
+.then(r=>r.json())
+.then(data=>{
+  const akun = data.find(d=>d.Email===email && d.Password===password);
+  if(akun){
+    document.getElementById("namaInvestor").innerText = akun.Nama;
+    document.getElementById("namaInvestor2").innerText = akun.Nama;
+    document.getElementById("namaInvestorSign").innerText = akun.Nama;
+    document.getElementById("jumlahInvestasi").innerText = Number(akun.Portofolio||0).toLocaleString("id-ID");
+  }
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then(() => console.log("PWA Service Worker aktif"))
+      .catch(err => console.log("SW gagal:", err));
+  });
+}
+</script>
+</body>
+</html>

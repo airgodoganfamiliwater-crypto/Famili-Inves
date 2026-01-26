@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="ikon-512.png">
+<title>Profil Perusahaan - PT Rizquna Jaya Mandiri</title>
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --primary:#2563eb;
+}
+body.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#1f2937;
+  --primary:#3b82f6;
+}
+
+body{
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg);
+  color:var(--text);
+  padding-bottom:100px;
+}
+
+/* ===== HEADER ===== */
+.header{
+  height:150px;
+  background:linear-gradient(135deg,var(--primary),#1e40af);
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  margin:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+.card.overlap{
+  margin-top:-70px;
+  text-align:center;
+}
+
+/* ===== LOGO ===== */
+.logo{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-top:-80px;
+  border:6px solid var(--card);
+  background:#fff;
+}
+
+/* =========================
+   HERO SLIDER
+========================= */
+.hero-slider{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding-bottom:12px;
+  margin-bottom:24px;
+  scroll-snap-type:x mandatory;
+}
+.hero-slider img{
+  flex:0 0 auto;
+  width:300px;
+  height:200px;
+  object-fit:cover;
+  border-radius:14px;
+  scroll-snap-align:start;
+  background:var(--border);
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+/* =========================
+   SECTIONS
+========================= */
+.section{
+  background:var(--card);
+  margin:20px 0;
+  padding:20px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.section h2{
+  margin-bottom:16px;
+  font-size:1.4rem;
+  font-weight:600;
+  color:var(--primary);
+}
+
+.section ul{
+  padding-left:18px;
+}
+.section ul li{
+  margin-bottom:8px;
+  color:var(--text);
+  line-height:1.6;
+}
+
+/* =========================
+   PRODUCT CARDS
+========================= */
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:18px;
+}
+
+.product-card{
+  background:linear-gradient(
+    180deg,
+    var(--card),
+    rgba(0,0,0,0.02)
+  );
+  padding:16px;
+  border-radius:16px;
+  text-align:center;
+  border:1px solid var(--border);
+  transition:0.25s ease;
+}
+
+.product-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+
+.product-card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:10px;
+  background:var(--border);
+}
+
+/* =========================
+   TESTIMONI
+========================= */
+.testimoni-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:18px;
+}
+
+.testimoni-card{
+  background:var(--card);
+  padding:16px;
+  border-radius:16px;
+  text-align:center;
+  border:1px solid var(--border);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.testimoni-card img{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  margin-bottom:10px;
+  border:2px solid var(--border);
+}
+
+/* =========================
+   CONTACT SECTION
+========================= */
+.contact-section{
+  margin-top:40px;
+}
+
+.contact-section h2{
+  font-size:1.5rem;
+  font-weight:600;
+  margin-bottom:16px;
+  color:var(--primary);
+}
+
+.contact-card{
+  background:rgba(255,255,255,0.75);
+  border-radius:18px;
+  padding:20px;
+  display:grid;
+  gap:14px;
+  border:1px solid var(--border);
+  box-shadow:0 12px 30px rgba(0,0,0,.12);
+  backdrop-filter:blur(10px);
+}
+
+/* DARK MODE glass */
+body.dark .contact-card{
+  background:rgba(17,24,39,0.7);
+}
+
+/* DEFAULT: SEBARIS */
+.contact-item{
+  display:flex;
+  align-items:flex-start;
+  gap:6px;
+  font-size:0.95rem;
+  line-height:1.6;
+  white-space:normal;
+}
+
+/* LABEL */
+.contact-item .label{
+  font-weight:600;
+  color:var(--muted);
+  flex-shrink:0;
+}
+
+/* TITIK DUA */
+.contact-item .separator{
+  color:var(--muted);
+  flex-shrink:0;
+}
+
+/* VALUE */
+.contact-item .value{
+  color:var(--text);
+  flex:1;
+  word-break:break-word;
+}
+
+/* LINK */
+.contact-item .link{
+  color:var(--primary);
+  text-decoration:none;
+  font-weight:500;
+}
+.contact-item .link:hover{
+  text-decoration:underline;
+}
+
+/* ===== ALAMAT KHUSUS (BEDA BARIS) ===== */
+.contact-item.address{
+  flex-direction:column;
+  gap:4px;
+}
+
+.contact-item.address .label{
+  font-weight:600;
+}
+
+.contact-item.address .value{
+  color:var(--text);
+}
+
+/* WRAPPER */
+.back-wrap{
+  margin-top:32px;
+  display:flex;
+  justify-content:center;
+}
+
+/* BUTTON */
+.btn-back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:14px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:600;
+  font-size:0.95rem;
+  text-decoration:none;
+  box-shadow:0 8px 20px rgba(37,99,235,.35);
+  transition:all .25s ease;
+}
+
+/* HOVER */
+.btn-back:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 28px rgba(37,99,235,.45);
+  opacity:.95;
+}
+
+/* ACTIVE (KLIK) */
+.btn-back:active{
+  transform:translateY(-1px) scale(.98);
+  box-shadow:0 6px 12px rgba(37,99,235,.3);
+}
+
+/* DARK MODE TUNING */
+body.dark .btn-back{
+  box-shadow:0 8px 20px rgba(59,130,246,.4);
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer{
+  text-align:center;
+  color:var(--muted);
+  margin:40px 0 20px;
+  font-size:13px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:600px){
+  .contact-item{
+    grid-template-columns:1fr;
+  }
+  .contact-item .label{
+    margin-bottom:4px;
+  }
+
+  .hero-slider img{
+    width:260px;
+    height:170px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header"></div>
+
+<!-- ===== CARD UTAMA ===== -->
+<div class="card overlap">
+  <img src="Logofw.png" class="logo">
+  <h1>FAMILI WATER</h1>
+  <h2>Air Godogan - FAMILI WATER</h2>
+  <p>Membantu Mewujudkan Kesejahteraan Bersama</p>
+</div>
+
+<div class="card">
+
+  <!-- HERO SLIDER -->
+  <div class="hero-slider">
+    <img src="fw1.png" alt="Produk 1">
+    <img src="fw2.png" alt="Produk 2">
+    <img src="fw3.png" alt="Produk 3">
+  </div>
+
+  <!-- TENTANG PERUSAHAAN -->
+  <div class="section">
+    <h2>Tentang Perusahaan</h2>
+    <p><strong>Famili Water – Air Godogan</strong> adalah perusahaan air matang isi ulang yang mengutamakan kesegaran dan kealamian kualitas air Nusantara. Kami berkomitmen menghadirkan air minum terbaik untuk keluarga dengan proses pematangan profesional dan higienis.</p>
+  </div>
+  
+  <div class="section">
+    <h2>Sejarah</h2>
+    <p>Pada tahun 2022, banyak warga mengeluhkan rasa dan konsistensi air isi ulang yang hanya melalui proses filter tanpa pematangan yang memadai — menyebabkan rasa tidak nyaman setelah konsumsi dan daya simpan yang buruk.</p>
+    <p>Melihat keresahan tersebut, <strong>Bapak. Ust. Ita Mustopa</strong> mencari solusi. Dari penelitian dan pengujian, beliau memperkenalkan metode “air godogan”: air yang direbus secara profesional dan dikemas higienis. Dari sana lahirlah Famili Water pada tahun 2022, dengan tujuan menyediakan air matang siap minum berkualitas untuk keluarga.</p>
+  </div>
+  
+  <div class="section">
+    <h2>Filosofi & Nilai Kejujuran</h2>
+    <ul>
+      <li><strong>Kejujuran</strong> — kualitas air yang jujur tanpa pengurangan.</li>
+      <li><strong>Kebersihan</strong> — standar higienis pada semua tahap produksi.</li>
+      <li><strong>Kepedulian</strong> — solusi praktis untuk keluarga sibuk agar tetap sehat.</li>
+    </ul>
+  </div>
+
+  <!-- PRODUK -->
+  <div class="section">
+    <h2>Produk</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="produk.png" alt="Galon Famili Water">
+        <h3>Galon FAMILI WATER 19 L</h3>
+        <p>Galon Pet untuk isi ulang air 19 Liter.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUBUNGI KAMI -->
+<div class="section contact-section">
+  <h2>Hubungi Kami</h2>
+
+  
+    <!-- ALAMAT (BEDA BARIS) -->
+<div class="contact-item address">
+  <span class="label">Alamat</span>
+  <span class="value">
+    Jl. By Pass Ujungaris RT: 003 RW: 002 Desa Ujungaris, 
+    Kec. Widasari, Kab. Indramayu, Jawa Barat 45271
+  </span>
+</div>
+
+<!-- SEBARIS -->
+<div class="contact-item">
+  <span class="label">Email</span>
+  <span class="separator">:</span>
+  <a class="value link" href="mailto:familiwater@gmail.com">
+    familiwater@gmail.com
+  </a>
+</div>
+
+<div class="contact-item">
+  <span class="label">Telepon</span>
+  <span class="separator">:</span>
+  <span class="value">0857-5999-5235</span>
+</div>
+
+<div class="contact-item">
+  <span class="label">WhatsApp</span>
+  <span class="separator">:</span>
+  <a class="value link" href="https://wa.me/6285759995235" target="_blank">
+    0857-5999-5235
+  </a>
+</div>
+
+<div class="contact-item">
+  <span class="label">Instagram</span>
+  <span class="separator">:</span>
+  <a class="value link" href="https://instagram.com/familiwater" target="_blank">
+    @familiwater
+  </a>
+</div>
+</div>
+<div class="back-wrap">
+  <a href="index.html" class="btn-back">
+    ← Kembali ke Beranda
+  </a>
+</div>
+</div>
+<footer>Famili Water - Investor © 2026</footer>
+<script>
+  /* ===== AUTH ===== */
+if(localStorage.getItem("login")!=="true"){
+  location.href="login.html";
+}
+
+/* ===== THEME ===== */
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then(() => console.log("PWA Service Worker aktif"))
+      .catch(err => console.log("SW gagal:", err));
+  });
+}
+</script>
+</body>
+</html>

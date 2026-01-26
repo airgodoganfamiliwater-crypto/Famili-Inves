@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="ikon-512.png">
+<title>Neraca Saldo Bulanan</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --primary:#2563eb;
+}
+body.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#1f2937;
+  --primary:#3b82f6;
+}
+
+body{
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg);
+  color:var(--text);
+  padding-bottom:100px;
+  overflow-x:hidden;
+}
+
+/* ===== HEADER ===== */
+.header{
+  height:150px;
+  background:linear-gradient(135deg,var(--primary),#1e40af);
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+}
+
+.card.overlap{
+  margin-top:-70px;
+  text-align: center;
+}
+
+/* ===== LOGO ===== */
+.logo{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-top:-80px;
+  border:6px solid var(--card);
+  background:#fff;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:16px;
+  margin:16px auto 0 auto;
+  box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  max-width:96%;
+  box-sizing:border-box;
+  transition:0.2s all;
+}
+.card:hover{
+  box-shadow:0 12px 30px rgba(0,0,0,0.12);
+}
+
+/* ===== HEADINGS ===== */
+h2{
+  margin:0 0 16px 0;
+  font-size:1.4rem;
+  font-weight:600;
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title{
+  font-weight:600;
+  margin:16px 0 8px 0;
+  font-size:0.95rem;
+  color:var(--muted);
+}
+
+/* ===== TABLE RESPONSIVE ===== */
+.table-wrapper{
+  overflow-x:auto;
+  margin-top:10px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:600px; /* agar bisa scroll horizontal */
+}
+th, td{
+  padding:12px 10px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  font-size:0.9rem;
+}
+th{
+  background:var(--bg);
+  font-weight:600;
+}
+.total{
+  font-weight:bold;
+  background:#f0f0f0;
+}
+
+/* ===== CUSTOM GLASS SELECT ===== */
+.custom-select-wrapper{
+  position:relative;
+  width:100%;
+  max-width:280px;
+  margin:8px 0 16px 0;
+}
+.custom-select-btn{
+  width:100%;
+  padding:10px 14px;
+  border:none;
+  border-radius:12px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  color:var(--text);
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(0,0,0,0.1);
+  transition:0.2s all;
+  text-align:left;
+}
+.custom-select-btn:hover{
+  background:rgba(255,255,255,0.25);
+}
+.custom-select-popup{
+  position:absolute;
+  top:110%;
+  left:0;
+  width:100%;
+  max-height:250px;
+  overflow-y:auto;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  z-index:50;
+}
+.custom-select-popup .month-item{
+  padding:10px 14px;
+  cursor:pointer;
+  transition:0.15s all;
+}
+.custom-select-popup .month-item:hover{
+  background:rgba(255,255,255,0.25);
+  color:var(--primary);
+}
+.hidden{display:none;}
+
+/* ===== ITEM ROW ===== */
+.item-row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #f0f0f0;
+}
+
+/* ===== RESPONSIVE SMALL SCREENS ===== */
+@media(max-width:480px){
+  h2{font-size:1.2rem;}
+  th, td{font-size:0.8rem;padding:8px;}
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:62px;
+  background:var(--card);
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:100;
+}
+
+.nav-bottom-line{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:30px;                 /* lebih tipis */
+  background:linear-gradient(
+    to right,
+    #0d47a1,
+    #1976d2,
+    #0d47a1
+  );
+}
+
+.nav-item{
+  flex:1;
+  text-align:center;
+  text-decoration:none;
+  color:white;
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  z-index: 400;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.nav-item svg{
+  width:20px;
+  height:20px;
+  background:linear-gradient(
+  145deg,
+  #0b3f8a,
+  #1976d2
+);
+border:1px solid rgba(255,255,255,.15);
+  fill:#fff;
+  border-radius:50%;
+  padding:10px;        /* padding lebih kecil */
+  box-shadow:0 8px 18px rgba(37,99,235,.45);
+}
+
+.nav-item.active {
+  color: orange;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.nav-item.home{
+  position:relative;
+  top:-10px;
+}
+
+.nav-item.home svg{
+  width:48px;
+  height:48px;
+  background:linear-gradient(
+  to right,
+  #0d47a1 0%,
+  #1e88e5 50%,
+  #0d47a1 100%
+);
+  fill:#fff;
+  border-radius:50%;
+  padding:12px;
+  box-shadow:
+    0 10px 25px rgba(13,71,161,.45),
+    inset 0 -4px 8px rgba(255,255,255,.15);
+}
+
+.nav-item.home span{
+  display:none;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  color:#64748b;
+  margin:30px 0 20px;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+  <div class="header"></div>
+
+<!-- ===== CARD UTAMA ===== -->
+<div class="card overlap">
+  <img src="Logofw.png" class="logo">
+
+<div class="card">
+  <h2>Neraca Saldo Perusahaan</h2>
+
+  <div class="section-title">Bulan Aktif: <span id="activeMonth"></span></div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Akun</th>
+          <th>Kategori</th>
+          <th>Debit</th>
+          <th>Kredit</th>
+        </tr>
+      </thead>
+      <tbody id="activeTable"></tbody>
+      <tfoot>
+        <tr class="total">
+          <td colspan="2">Total</td>
+          <td id="activeTotalDebit">0</td>
+          <td id="activeTotalKredit">0</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="section-title">Filter Bulan Lain</div>
+  <div class="custom-select-wrapper">
+    <button id="monthButton" class="custom-select-btn">Pilih Bulan</button>
+    <div id="monthPopup" class="custom-select-popup hidden">
+      <div class="month-item" data-month="Januari">Januari</div>
+      <div class="month-item" data-month="Februari">Februari</div>
+      <div class="month-item" data-month="Maret">Maret</div>
+      <div class="month-item" data-month="April">April</div>
+      <div class="month-item" data-month="Mei">Mei</div>
+      <div class="month-item" data-month="Juni">Juni</div>
+      <div class="month-item" data-month="Juli">Juli</div>
+      <div class="month-item" data-month="Agustus">Agustus</div>
+      <div class="month-item" data-month="September">September</div>
+      <div class="month-item" data-month="Oktober">Oktober</div>
+      <div class="month-item" data-month="November">November</div>
+      <div class="month-item" data-month="Desember">Desember</div>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Akun</th>
+          <th>Kategori</th>
+          <th>Debit</th>
+          <th>Kredit</th>
+        </tr>
+      </thead>
+      <tbody id="filterTable"></tbody>
+      <tfoot>
+        <tr class="total">
+          <td colspan="2">Total</td>
+          <td id="filterTotalDebit">0</td>
+          <td id="filterTotalKredit">0</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-bottom-line"></div>
+  <a href="portofolio.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/></svg>
+    <span>Portofolio</span>
+  </a>
+  <a href="penjualan.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M4 19h4V9H4zm6 0h4V5h-4zm6 0h4v-7h-4z"/></svg>
+    <span>Penjualan</span>
+  </a>
+  <a href="index.html" class="nav-item home">
+    <svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10h-5v-6H9v6H4z"/></svg>
+  </a>
+  <a href="neraca.html" class="nav-item active">
+    <svg viewBox="0 0 24 24"><path d="M6 8h12l2 7-3 5h-3l-2-3h-4l-2 3H3L1 15z"/></svg>
+    <span>Neraca</span>
+  </a>
+  <a href="profil.html" class="nav-item">
+    <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm-7 9a7 7 0 0 1 14 0"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<footer>Famili Water - Investor © 2026</footer>
+<script>
+/* ================= AUTH CHECK ================= */
+if(localStorage.getItem("login")!=="true"){
+  window.location.href="login.html";
+}
+
+/* ===== THEME ===== */
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+
+// sheet data
+const SHEET_ID = "1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
+const SHEET_NAME = "NeracaSaldo"; 
+const URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+
+const activeTable = document.getElementById("activeTable");
+const filterTable = document.getElementById("filterTable");
+const activeTotalDebit = document.getElementById("activeTotalDebit");
+const activeTotalKredit = document.getElementById("activeTotalKredit");
+const filterTotalDebit = document.getElementById("filterTotalDebit");
+const filterTotalKredit = document.getElementById("filterTotalKredit");
+const activeMonthEl = document.getElementById("activeMonth");
+
+let dataSheet = [];
+const months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const currentMonth = months[new Date().getMonth()]; 
+
+function rupiah(n){return Number(n||0).toLocaleString("id-ID");}
+
+fetch(URL)
+  .then(r=>r.json())
+  .then(data=>{
+    dataSheet = data;
+    activeMonthEl.innerText = currentMonth;
+    renderTable(currentMonth, activeTable, activeTotalDebit, activeTotalKredit); 
+  });
+
+function renderTable(month, tbodyEl, totalDebitEl, totalKreditEl){
+  tbodyEl.innerHTML="";
+  let totalDebit=0, totalKredit=0;
+  dataSheet.forEach(d=>{
+    const debit = Number(d[month + " Debit"]||0);
+    const kredit = Number(d[month + " Kredit"]||0);
+    if(debit || kredit){
+      tbodyEl.innerHTML += `
+        <tr>
+          <td>${d.Akun}</td>
+          <td>${d.Kategori}</td>
+          <td>${rupiah(debit)}</td>
+          <td>${rupiah(kredit)}</td>
+        </tr>`;
+      totalDebit += debit;
+      totalKredit += kredit;
+    }
+  });
+  totalDebitEl.innerText = rupiah(totalDebit);
+  totalKreditEl.innerText = rupiah(totalKredit);
+}
+
+// ===== CUSTOM GLASS SELECT JS =====
+const monthButton = document.getElementById("monthButton");
+const monthPopup = document.getElementById("monthPopup");
+const monthItems = monthPopup.querySelectorAll(".month-item");
+
+monthButton.addEventListener("click", ()=>{
+  monthPopup.classList.toggle("hidden");
+});
+
+monthItems.forEach(item=>{
+  item.addEventListener("click", ()=>{
+    const month = item.dataset.month;
+    monthButton.innerText = month;
+    monthPopup.classList.add("hidden");
+    renderTable(month, filterTable, filterTotalDebit, filterTotalKredit);
+  });
+});
+
+document.addEventListener("click", e=>{
+  if(!monthPopup.contains(e.target) && e.target !== monthButton){
+    monthPopup.classList.add("hidden");
+  }
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then(() => console.log("PWA Service Worker aktif"))
+      .catch(err => console.log("SW gagal:", err));
+  });
+}
+</script>
+</body>
+</html>
