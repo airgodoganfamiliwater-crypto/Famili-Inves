@@ -1,26 +1,3 @@
-const CACHE_NAME = "familiwater-v1";
-
-const ASSETS = [
-  "login.html",
-  "index.html",
-  "profil.html",
-  "portofolio.html",
-  "penjualan.html",
-  "neraca.html",
-  "profilperusahaan.html",
-  "statement.html",
-  "perjanjian.html",
-
-  "LogoFW.png",
-  "ikon-512.png",
-  "sampul.png",
-  "hero1.png",
-  "hero2.png",
-  "fw1.png",
-  "fw2.png",
-  "fw3.png"
-];
-
 /* INSTALL */
 self.addEventListener("install", e => {
   e.waitUntil(

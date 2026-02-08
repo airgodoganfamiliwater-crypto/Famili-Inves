@@ -314,6 +314,7 @@ if(localStorage.getItem("theme")==="dark"){
 
 const SHEET_ID="1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
 
+/* ===== HELPER ===== */
 function toNumber(v){
   if(!v) return 0;
   return Number(v.toString().replace(/[^0-9]/g,''))||0;
@@ -322,100 +323,91 @@ function ribuan(n){ return n.toLocaleString("id-ID"); }
 
 /* ================= DATA HARIAN ================= */
 async function loadHarian(){
-  const res=await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Penjualan`);
-  const data=await res.json();
+  const penjualanRes = await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Penjualan`);
+  const pengeluaranRes = await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Pengeluaran`);
 
-  let tP=0,tG=0,tM=0;
+  const penjualan = await penjualanRes.json();
+  const pengeluaran = await pengeluaranRes.json();
+
+  // map pengeluaran berdasarkan tanggal
+  const mapPengeluaran = {};
+  pengeluaran.forEach(r=>{
+    const t = (r.Tanggal||"").trim();
+    mapPengeluaran[t] = toNumber(r.Jumlah);
+  });
+
+  let tP=0, tG=0, tM=0;
   let html=`<table>
   <tr><th>Tanggal</th><th>Penjualan</th><th>Pengeluaran</th><th>Margin</th></tr>`;
 
-  data.forEach(r=>{
-    const p=toNumber(r.Penjualan);
-    const g=toNumber(r.Pengeluaran);
-    const m=toNumber(r.Margin);
-    tP+=p; tG+=g; tM+=m;
+  penjualan.forEach(r=>{
+    const tanggal = (r.Tanggal||"").trim();
+    const p = toNumber(r.Penjualan);
+    const g = mapPengeluaran[tanggal] || 0; // REAL dari sheet
+    const m = p - g;
 
-    html+=`<tr>
-      <td>${r.Tanggal||""}</td>
-      <td>${p}</td>
+    tP += p;
+    tG += g;
+    tM += m;
+
+    html += `
+    <tr>
+      <td>${tanggal}</td>
+      <td>${ribuan(p)}</td>
       <td>${ribuan(g)}</td>
       <td>${ribuan(m)}</td>
     </tr>`;
   });
 
-  html+=`<tr class="summary">
-    <td>Total</td>
-    <td>${tP}</td>
+  html += `
+  <tr class="summary">
+    <td>TOTAL</td>
+    <td>${ribuan(tP)}</td>
     <td>${ribuan(tG)}</td>
     <td>${ribuan(tM)}</td>
   </tr></table>`;
 
-  document.getElementById("harian").innerHTML=html;
+  document.getElementById("harian").innerHTML = html;
 }
 
+/* ================= CHART ================= */
 async function loadSalesChart() {
   const res = await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Penjualan`);
   const data = await res.json();
 
   const ctx = document.getElementById("salesChart").getContext("2d");
 
-  // Gradient fill
-  const grad = ctx.createLinearGradient(0, 0, 0, 180);
-  grad.addColorStop(0, "rgba(37,99,235,.35)");
-  grad.addColorStop(1, "rgba(37,99,235,0)");
+  const grad = ctx.createLinearGradient(0,0,0,180);
+  grad.addColorStop(0,"rgba(37,99,235,.35)");
+  grad.addColorStop(1,"rgba(37,99,235,0)");
 
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: data.map(d => d.Tanggal),
-      datasets: [{
-        data: data.map(d => Number(d.Penjualan || 0)),
-        borderColor: "#2563eb",
-        backgroundColor: grad,
-        borderWidth: 3,
-        tension: 0.45,
-        fill: true,
-
-        // Titik interaktif
-        pointRadius: 4,
-        pointHoverRadius: 7,
-        pointHitRadius: 15,
-        pointBackgroundColor: "#2563eb",
-        pointBorderColor: "#fff",
-        pointBorderWidth: 2
+  new Chart(ctx,{
+    type:"line",
+    data:{
+      labels:data.map(d=>d.Tanggal),
+      datasets:[{
+        data:data.map(d=>toNumber(d.Penjualan)),
+        borderColor:"#2563eb",
+        backgroundColor:grad,
+        borderWidth:3,
+        tension:.45,
+        fill:true,
+        pointRadius:4,
+        pointBackgroundColor:"#2563eb",
+        pointBorderColor:"#fff",
+        pointBorderWidth:2
       }]
     },
-    options: {
-      responsive: true,
-      animation: { duration: 900 },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          enabled: true,
-          callbacks: {
-            label: ctx => `Penjualan: ${ctx.raw}`
-          }
-        }
-      },
-      interaction: {
-        mode: "nearest",
-        intersect: false
-      },
-      scales: {
-        x: { display: false },
-        y: { display: true,
-        ticks: {callback: function(value)
-        {return value.toLocaleString();}
-        },
-        grid: {color: 'rgba(0,0,0,0.05)'}
-        }
+    options:{
+      responsive:true,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{display:false},
+        y:{ticks:{callback:v=>v.toLocaleString()}}
       }
     }
   });
 }
-
-// Panggil chart setelah data harian
-loadSalesChart();
 
 /* ================= DATA BULANAN ================= */
 async function loadBulanan(){
@@ -430,19 +422,22 @@ async function loadBulanan(){
     const p=toNumber(r.Penjualan);
     const g=toNumber(r.Pengeluaran);
     const m=toNumber(r.Margin);
+
     tP+=p; tG+=g; tM+=m;
 
-    html+=`<tr>
-      <td>${r.Bulan||""}</td>
-      <td>${p}</td>
+    html+=`
+    <tr>
+      <td>${r.Bulan}</td>
+      <td>${ribuan(p)}</td>
       <td>${ribuan(g)}</td>
       <td>${ribuan(m)}</td>
     </tr>`;
   });
 
-  html+=`<tr class="summary">
-    <td>Total</td>
-    <td>${tP}</td>
+  html+=`
+  <tr class="summary">
+    <td>TOTAL</td>
+    <td>${ribuan(tP)}</td>
     <td>${ribuan(tG)}</td>
     <td>${ribuan(tM)}</td>
   </tr></table>`;
@@ -450,46 +445,41 @@ async function loadBulanan(){
   document.getElementById("bulanan").innerHTML=html;
 }
 
-/* ================= PENGELUARAN ================= */
+/* ================= DETAIL PENGELUARAN ================= */
 async function loadPengeluaran(){
   const res=await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Pengeluaran`);
   const data=await res.json();
 
   let html="";
   data.forEach(r=>{
-    const gasQty=toNumber(r.Gas);
-    const tutupQty=toNumber(r.Tutup);
-    const lain=toNumber(r.Keterangan);
-
-    const gas=gasQty*18500;
-    const tutup=tutupQty*100000;
-    const total=gas+tutup+lain;
-
-    if(total===0) return;
+    const total=toNumber(r.Jumlah);
+    if(!total) return;
 
     html+=`
     <div class="card">
-      <b>${r.Tanggal||""}</b>
-      ${gasQty?`<div class="small">Gas ${gasQty} → ${ribuan(gas)}</div>`:""}
-      ${tutupQty?`<div class="small">Tutup ${tutupQty} → ${ribuan(tutup)}</div>`:""}
-      ${lain?`<div class="small">${r.Lainnya||"Lainnya"} → ${ribuan(lain)}</div>`:""}
+      <b>${r.Tanggal}</b>
+      <div class="small">Gas: ${ribuan(toNumber(r.hargaGas))}</div>
+      <div class="small">Tutup: ${ribuan(toNumber(r.hargaTtp))}</div>
+      <div class="small">BBM: ${ribuan(toNumber(r.hargaBBM))}</div>
+      <div class="small">${r["Lain²"]||"Lain"}: ${ribuan(toNumber(r.hargaLain))}</div>
       <hr>
       <b>Total Pengeluaran: ${ribuan(total)}</b>
     </div>`;
   });
 
-  document.getElementById("pengeluaran").innerHTML=html||"Tidak ada data";
+  document.getElementById("pengeluaran").innerHTML = html || "Tidak ada data";
 }
 
+/* TOGGLE */
 function togglePengeluaran(){
-  const el=document.getElementById("pengeluaran");
-  el.classList.toggle("hidden");
+  document.getElementById("pengeluaran").classList.toggle("hidden");
 }
 
 /* INIT */
 loadHarian();
 loadBulanan();
 loadPengeluaran();
+loadSalesChart();
 </script>
 <script>
 if ("serviceWorker" in navigator) {
