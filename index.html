@@ -573,12 +573,9 @@ fetch(PENJUALAN_URL).then(r => r.json()).then(data => {
 });
 </script>
 <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("sw.js")
-      .then(() => console.log("PWA Service Worker aktif"))
-      .catch(err => console.log("SW gagal:", err));
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.getRegistrations().then(r=>{
+    for(let reg of r) reg.unregister();
   });
 }
 </script>

@@ -457,15 +457,5 @@ document.addEventListener("click", e=>{
   }
 });
 </script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("sw.js")
-      .then(() => console.log("PWA Service Worker aktif"))
-      .catch(err => console.log("SW gagal:", err));
-  });
-}
-</script>
 </body>
 </html>

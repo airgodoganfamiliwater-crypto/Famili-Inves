@@ -462,15 +462,14 @@ async function loadPengeluaran(){
 
     html += `
     <div class="card">
-      <b>📅 ${r.Tanggal}</b>
+      <b>📅 ${r.Tanggal}</b><br><br>
 
-      <div class="small">Gas: ${r.Gas || 0} ${ribuan(toNumber(r.hargaGas))}</div>
-      <div class="small">Tutup: ${r.Ttp || 0} ${ribuan(toNumber(r.hargaTtp))}</div>
-
-      ${r["Lain²"] ? `<div class="small">Lainnya: ${r["Lain²"]} ${ribuan(toNumber(r.hargaLain))}</div>` : ""}
+      ${r.Gas ? `<div class="small">Gas: ${r.Gas} ${r.hargaGas || ""}</div>` : ""}
+      ${r.Ttp ? `<div class="small">Tutup: ${r.Ttp} ${r.hargaTtp || ""}</div>` : ""}
+      ${r["Lain²"] ? `<div class="small">Lainnya: ${r["Lain²"]} ${r.hargaLain || ""}</div>` : ""}
 
       <hr>
-      <b>Jumlah Pengeluaran: ${ribuan(toNumber(r.Jumlah))}</b>
+      <b>Jumlah Pengeluaran: ${r.Jumlah || ""}</b>
     </div>
     `;
   });
@@ -493,17 +492,6 @@ loadSalesChart();
 if (navigator.serviceWorker) {
   navigator.serviceWorker.addEventListener("controllerchange", () => {
     location.reload();
-  });
-}
-</script>
-
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("sw.js")
-      .then(() => console.log("PWA Service Worker aktif"))
-      .catch(err => console.log("SW gagal:", err));
   });
 }
 </script>

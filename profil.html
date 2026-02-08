@@ -303,16 +303,5 @@ function choosePhoto(){
   i.click();
 }
 </script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("sw.js")
-      .then(() => console.log("PWA Service Worker aktif"))
-      .catch(err => console.log("SW gagal:", err));
-  });
-}
-</script>
-<meta name="theme-color" content="#2563eb">
 </body>
 </html>
