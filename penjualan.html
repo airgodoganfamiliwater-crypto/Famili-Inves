@@ -321,10 +321,15 @@ function toNumber(v){
 }
 function ribuan(n){ return n.toLocaleString("id-ID"); }
 
+/* ANTI CACHE */
+function sheetURL(sheet){
+  return `https://opensheet.elk.sh/${SHEET_ID}/${sheet}?nocache=${Date.now()}`;
+}
+
 /* ================= DATA HARIAN ================= */
 async function loadHarian(){
-  const penjualanRes = await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Penjualan`);
-  const pengeluaranRes = await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Pengeluaran`);
+  const penjualanRes = await fetch(sheetURL("Penjualan"));
+  const pengeluaranRes = await fetch(sheetURL("Pengeluaran"));
 
   const penjualan = await penjualanRes.json();
   const pengeluaran = await pengeluaranRes.json();
@@ -343,7 +348,7 @@ async function loadHarian(){
   penjualan.forEach(r=>{
     const tanggal = (r.Tanggal||"").trim();
     const p = toNumber(r.Penjualan);
-    const g = mapPengeluaran[tanggal] || 0; // REAL dari sheet
+    const g = mapPengeluaran[tanggal] || 0;
     const m = p - g;
 
     tP += p;
@@ -372,7 +377,7 @@ async function loadHarian(){
 
 /* ================= CHART ================= */
 async function loadSalesChart() {
-  const res = await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Penjualan`);
+  const res = await fetch(sheetURL("Penjualan"));
   const data = await res.json();
 
   const ctx = document.getElementById("salesChart").getContext("2d");
@@ -411,7 +416,7 @@ async function loadSalesChart() {
 
 /* ================= DATA BULANAN ================= */
 async function loadBulanan(){
-  const res=await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Bulanan`);
+  const res=await fetch(sheetURL("Bulanan"));
   const data=await res.json();
 
   let tP=0,tG=0,tM=0;
@@ -447,7 +452,7 @@ async function loadBulanan(){
 
 /* ================= DETAIL PENGELUARAN ================= */
 async function loadPengeluaran(){
-  const res=await fetch(`https://opensheet.elk.sh/${SHEET_ID}/Pengeluaran`);
+  const res=await fetch(sheetURL("Pengeluaran"));
   const data=await res.json();
 
   let html="";
@@ -480,7 +485,15 @@ loadHarian();
 loadBulanan();
 loadPengeluaran();
 loadSalesChart();
+
+/* AUTO RELOAD JIKA SW UPDATE */
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    location.reload();
+  });
+}
 </script>
+
 <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
