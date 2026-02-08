@@ -452,24 +452,27 @@ async function loadBulanan(){
 
 /* ================= DETAIL PENGELUARAN ================= */
 async function loadPengeluaran(){
-  const res=await fetch(sheetURL("Pengeluaran"));
-  const data=await res.json();
+  const res = await fetch(sheetURL("Pengeluaran"));
+  const data = await res.json();
 
-  let html="";
+  let html = "";
+
   data.forEach(r=>{
-    const total=toNumber(r.Jumlah);
-    if(!total) return;
+    if(!r.Tanggal) return;
 
-    html+=`
+    html += `
     <div class="card">
-      <b>${r.Tanggal}</b>
-      <div class="small">Gas: ${ribuan(toNumber(r.hargaGas))}</div>
-      <div class="small">Tutup: ${ribuan(toNumber(r.hargaTtp))}</div>
-      <div class="small">BBM: ${ribuan(toNumber(r.hargaBBM))}</div>
-      <div class="small">${r["Lain²"]||"Lain"}: ${ribuan(toNumber(r.hargaLain))}</div>
+      <b>📅 ${r.Tanggal}</b>
+
+      <div class="small">Gas: ${r.Gas || 0} ${ribuan(toNumber(r.hargaGas))}</div>
+      <div class="small">Tutup: ${r.Ttp || 0} ${ribuan(toNumber(r.hargaTtp))}</div>
+
+      ${r["Lain²"] ? `<div class="small">Lainnya: ${r["Lain²"]} ${ribuan(toNumber(r.hargaLain))}</div>` : ""}
+
       <hr>
-      <b>Total Pengeluaran: ${ribuan(total)}</b>
-    </div>`;
+      <b>Jumlah Pengeluaran: ${ribuan(toNumber(r.Jumlah))}</b>
+    </div>
+    `;
   });
 
   document.getElementById("pengeluaran").innerHTML = html || "Tidak ada data";
