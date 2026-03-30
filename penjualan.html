@@ -90,7 +90,14 @@ const SHEET_ID="1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
 const baseURL = "https://opensheet.elk.sh/"+SHEET_ID+"/";
 
 // helper
-function toNumber(v){return Number((v||0).toString().replace(/[^0-9]/g,''))||0;}
+// helper
+function toNumber(v){
+  if(!v) return 0;
+  v = v.toString().trim();
+  const isNegative = v.startsWith("-"); // cek minus di awal
+  const num = Number(v.replace(/[^0-9]/g,"")) || 0;
+  return isNegative ? -num : num;
+}
 function ribuan(n){return n.toLocaleString("id-ID");}
 function sheetURL(sheet){return baseURL+sheet;}
 
