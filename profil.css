@@ -1,0 +1,221 @@
+
+:root{
+  --primary:#2563eb;
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+}
+
+/* ===== DISABLE SELECT ===== */
+*{
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-tap-highlight-color: transparent;
+}
+/* ===== BODY ===== */
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:var(--bg);
+}
+
+/* ===== HEADER ===== */
+.header{
+  height:160px;
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+}
+
+/* ===== CARD ===== */
+.profile-card{
+  background:var(--card);
+  margin:-60px 16px 0;
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ===== AVATAR ===== */
+.avatar-wrap{
+  position:relative;
+  width:110px;
+  height:110px;
+  margin:0 auto 12px;
+}
+
+.avatar{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:#e2e8f0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  font-weight:700;
+  color:#475569;
+  overflow:hidden;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* EDIT ICON */
+.edit-btn{
+  position:absolute;
+  bottom:0;
+  right:0;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--primary);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+/* ===== TEXT ===== */
+.nama{
+  font-size:18px;
+  font-weight:700;
+  color:var(--text);
+}
+
+/* ===== DETAIL CARD ===== */
+.detail-card{
+  background:#fff;
+  margin:20px 16px;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+.detail-title{
+  font-weight:700;
+  margin-bottom:12px;
+  color:var(--text);
+}
+
+/* ROW */
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px dashed #e2e8f0;
+  font-size:14px;
+}
+
+.detail-row:last-child{
+  border-bottom:none;
+}
+
+.detail-row span{
+  color:var(--muted);
+}
+
+.detail-row b{
+  color:var(--text);
+}
+
+/* ===== POPUP ===== */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+.popup.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.popup-box{
+  width:90%;
+  max-width:320px;
+  background:#fff;
+  border-radius:16px;
+  padding:18px;
+  text-align:center;
+}
+
+/* PREVIEW */
+.preview{
+  width:140px;
+  height:140px;
+  border-radius:12px;
+  background:#e2e8f0;
+  margin:0 auto 14px;
+  overflow:hidden;
+}
+
+.preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* ===== BUTTON SYSTEM ===== */
+.btn{
+  display:block;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+  margin-top:12px;
+  transition:.2s;
+}
+
+/* tap effect */
+.btn:active{
+  transform:scale(.97);
+}
+
+/* states */
+.btn.loading{
+  opacity:.6;
+  pointer-events:none;
+}
+
+.btn.success{
+  background:#16a34a;
+}
+
+.btn.error{
+  background:#dc2626;
+}
+
+/* ===== LOGOUT ===== */
+/* WRAPPER BIAR GA FULL LAYAR */
+.btn-wrap{
+  padding:0 16px 30px;
+}
+.logout-btn{
+  background:#dc2626;
+  margin-top:12px;
+}
+
+/* biar gak nempel ke card */
+.profile-card + .detail-card{
+  margin-top:20px;
+}

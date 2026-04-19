@@ -2,235 +2,94 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="penjualan.css">
+<link rel="stylesheet" href="navbar.css">
 <meta name="theme-color" content="#2563eb">
 <link rel="icon" href="ikon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
 <title>Penjualan</title>
 
-<style>
-:root{
-  --bg:#f4f6f8; --card:#ffffff; --text:#111827; --muted:#6b7280;
-  --border:#e5e7eb; --primary:#2563eb;
-}
-body.dark{
-  --bg:#0b1220; --card:#111827; --text:#e5e7eb; --muted:#9ca3af;
-  --border:#1f2937; --primary:#3b82f6;
-}
-body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text);padding-bottom:100px;overflow-x:hidden;}
-.header{height:150px;background:linear-gradient(135deg,var(--primary),#1e40af);border-bottom-left-radius:28px;border-bottom-right-radius:28px;}
-.card{background:var(--card);border-radius:18px;padding:16px;margin:16px auto 0 auto;box-shadow:0 6px 20px rgba(0,0,0,0.08);max-width:96%;box-sizing:border-box;transition:0.2s all;}
-.card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.12);}
-.card.overlap{margin-top:-70px;text-align:center;}
-.logo{width:110px;height:110px;border-radius:50%;object-fit:cover;margin-top:-80px;border:6px solid var(--card);background:#fff;}
-button{display:block;width:100%;max-width:280px;margin:16px auto 0;padding:10px 14px;border:none;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;box-shadow:0 6px 15px rgba(37,99,235,0.3);transition:0.3s all;}
-button:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 10px 20px rgba(37,99,235,0.35);}
-.small{font-size:13px;color:var(--muted);margin-top:4px;}
-.hidden{display:none;}
-.table-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;scroll-behavior:smooth;}
-table{border-collapse:collapse;width:max-content;min-width:100%;table-layout:fixed;word-break:keep-all;margin-top:12px;}
-th, td{padding:10px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
-th{background:var(--bg);font-weight:600;position:sticky;top:0;z-index:2;}
-.summary{font-weight:bold;background:#f0f0f0;}
-.table-wrapper::-webkit-scrollbar{height:6px;}
-.table-wrapper::-webkit-scrollbar-thumb{background:rgba(37,99,235,0.4);border-radius:3px;}
-.table-wrapper::-webkit-scrollbar-track{background:transparent;}
-.navbar{position:fixed;bottom:0;left:0;right:0;height:62px;background:var(--card);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:100;}
-.nav-bottom-line{position:absolute;bottom:0;left:0;right:0;height:30px;background:linear-gradient(to right,#0d47a1,#1976d2,#0d47a1);}
-.nav-item{flex:1;text-align:center;text-decoration:none;color:white;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:4px;z-index:400;-webkit-tap-highlight-color:transparent;}
-.nav-item svg{width:20px;height:20px;background:linear-gradient(145deg,#0b3f8a,#1976d2);border:1px solid rgba(255,255,255,.15);fill:#fff;border-radius:50%;padding:10px;box-shadow:0 8px 18px rgba(37,99,235,.45);}
-.nav-item.active{color:orange;text-shadow:0 1px 2px rgba(0,0,0,0.3);}
-.nav-item.home{position:relative;top:-10px;}
-.nav-item.home svg{width:48px;height:48px;background:linear-gradient(to right,#0d47a1 0%,#1e88e5 50%,#0d47a1 100%);fill:#fff;border-radius:50%;padding:12px;box-shadow:0 10px 25px rgba(13,71,161,.45),inset 0 -4px 8px rgba(255,255,255,.15);}
-.nav-item.home span{display:none;}
-footer{text-align:center;color:#64748b;margin:30px 0 20px;font-size:13px;}
-</style>
 </head>
+
 <body>
+
 <div class="header"></div>
 
-<div class="card overlap">
-  <img src="Logofw.png" class="logo">
-
+<div class="container">
   <div class="card">
-    <h2>Data Harian</h2>
-    <div class="table-wrapper"><div id="harian"></div></div>
-    <button onclick="togglePengeluaran()">Cek Pengeluaran</button>
-    <div id="pengeluaran" class="hidden"></div>
-  </div>
 
-  <div class="card">
-    <small style="color:var(--muted)">Grafik Penjualan Hari Ini</small>
-    <canvas id="salesChart" height="140"></canvas>
-  </div>
+    <div class="logo-wrap">
+      <img src="logofw.png" class="logo">
+    </div>
 
-  <div class="card">
-    <h2>Data Bulanan</h2>
-    <div class="table-wrapper"><div id="bulanan"></div></div>
+    <div class="title">Data Harian</div>
+    <div class="bulan" onclick="openFilter()">
+      <span id="textBulan"></span>
+      <span class="arrow">›</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Penjualan</th>
+          <th>Pengeluaran</th>
+          <th>Margin</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <div class="total" id="totalBox"></div>
+
   </div>
 </div>
 
-<nav class="navbar">
-  <div class="nav-bottom-line"></div>
-  <a href="portofolio.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/></svg><span>Portofolio</span></a>
-  <a href="penjualan.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M4 19h4V9H4zm6 0h4V5h-4zm6 0h4v-7h-4z"/></svg><span>Penjualan</span></a>
-  <a href="index.html" class="nav-item home"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10h-5v-6H9v6H4z"/></svg></a>
-  <a href="neraca.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M6 8h12l2 7-3 5h-3l-2-3h-4l-2 3H3L1 15z"/></svg><span>Neraca</span></a>
-  <a href="profil.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm-7 9a7 7 0 0 1 14 0"/></svg><span>Profil</span></a>
-</nav>
+<!-- POPUP FILTER -->
+<div class="popup" id="popup">
+  <div class="popup-content" id="popupContent">
+    <div class="popup-title">Filter Periode</div>
 
-<footer>Famili Water - Investor © 2026</footer>
+    <select id="bulanSelect">
+      <option value="0">Januari</option>
+      <option value="1">Februari</option>
+      <option value="2">Maret</option>
+      <option value="3">April</option>
+      <option value="4">Mei</option>
+      <option value="5">Juni</option>
+      <option value="6">Juli</option>
+      <option value="7">Agustus</option>
+      <option value="8">September</option>
+      <option value="9">Oktober</option>
+      <option value="10">November</option>
+      <option value="11">Desember</option>
+    </select>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-if(localStorage.getItem("login")!=="true"){location.href="login.html";}
-if(localStorage.getItem("theme")==="dark"){document.body.classList.add("dark");}
+    <select id="tahunSelect"></select>
 
-const SHEET_ID="1RVV1PiXV27wBMNClhTEU8tu7w2y3cWJsaqsIIKzCUBo";
-const baseURL = "https://opensheet.elk.sh/"+SHEET_ID+"/";
+    <button onclick="applyFilter()">Terapkan</button>
 
-// helper
-// helper
-function toNumber(v){
-  if(!v) return 0;
-  v = v.toString().trim();
-  const isNegative = v.startsWith("-"); // cek minus di awal
-  const num = Number(v.replace(/[^0-9]/g,"")) || 0;
-  return isNegative ? -num : num;
-}
-function ribuan(n){return n.toLocaleString("id-ID");}
-function sheetURL(sheet){return baseURL+sheet;}
+  </div>
+</div>
+<!-- POPUP DETAIL -->
+<div class="popup" id="popupDetail">
+  <div class="popup-content" id="popupDetailContent">
 
-// ===== HARiAN =====
-async function loadHarian(){
-  const res = await fetch(sheetURL("Penjualan"));
-  const data = await res.json();
+    <div class="popup-title">Detail Pengeluaran</div>
 
-  let tP=0,tG=0,tM=0;
-  let html=`<table><tr><th>Tanggal</th><th>Penjualan</th><th>Pengeluaran</th><th>Margin</th></tr>`;
+    <div id="detailContent"></div>
 
-  data.forEach(r=>{
-    const tanggal = r[Object.keys(r)[0]] || "";
-    const p = toNumber(r[Object.keys(r)[1]]);
-    const g = toNumber(r[Object.keys(r)[2]]);
-    const m = toNumber(r[Object.keys(r)[3]]);
-
-    tP+=p; tG+=g; tM+=m;
-
-    html+=`<tr>
-      <td>${tanggal}</td>
-      <td>${ribuan(p)}</td>
-      <td>${ribuan(g)}</td>
-      <td>${ribuan(m)}</td>
-    </tr>`;
-  });
-
-  html+=`<tr class="summary">
-    <td>TOTAL</td>
-    <td>${ribuan(tP)}</td>
-    <td>${ribuan(tG)}</td>
-    <td>${ribuan(tM)}</td>
-  </tr></table>`;
-
-  document.getElementById("harian").innerHTML = html;
-}
-
-// ===== CHART =====
-async function loadSalesChart(){
-  const res = await fetch(sheetURL("Penjualan"));
-  const data = await res.json();
-  const ctx = document.getElementById("salesChart").getContext("2d");
-  const grad = ctx.createLinearGradient(0,0,0,180);
-  grad.addColorStop(0,"rgba(37,99,235,.35)");
-  grad.addColorStop(1,"rgba(37,99,235,0)");
-
-  new Chart(ctx,{
-    type:"line",
-    data:{
-      labels:data.map(d=>d[Object.keys(d)[0]]),
-      datasets:[{
-        data:data.map(d=>toNumber(d[Object.keys(d)[1]])),
-        borderColor:"#2563eb",
-        backgroundColor:grad,
-        borderWidth:3,
-        tension:.45,
-        fill:true,
-        pointRadius:4,
-        pointBackgroundColor:"#2563eb",
-        pointBorderColor:"#fff",
-        pointBorderWidth:2
-      }]
-    },
-    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{display:false},y:{ticks:{callback:v=>v.toLocaleString()}}}}
-  });
-}
-
-// ===== BULANAN =====
-async function loadBulanan(){
-  const res = await fetch(sheetURL("Bulanan"));
-  const data = await res.json();
-
-  let tP=0,tG=0,tM=0;
-  let html=`<table><tr><th>Bulan</th><th>Penjualan</th><th>Pengeluaran</th><th>Margin</th></tr>`;
-
-  data.forEach(r=>{
-    const bulan = r[Object.keys(r)[0]] || "";
-    const p = toNumber(r[Object.keys(r)[1]]);
-    const g = toNumber(r[Object.keys(r)[2]]);
-    const m = toNumber(r[Object.keys(r)[3]]);
-    tP+=p; tG+=g; tM+=m;
-
-    html+=`<tr>
-      <td>${bulan}</td>
-      <td>${ribuan(p)}</td>
-      <td>${ribuan(g)}</td>
-      <td>${ribuan(m)}</td>
-    </tr>`;
-  });
-
-  html+=`<tr class="summary">
-    <td>TOTAL</td>
-    <td>${ribuan(tP)}</td>
-    <td>${ribuan(tG)}</td>
-    <td>${ribuan(tM)}</td>
-  </tr></table>`;
-
-  document.getElementById("bulanan").innerHTML = html;
-}
-
-// ===== PENGELUARAN =====
-async function loadPengeluaran(){
-  const res = await fetch(sheetURL("Pengeluaran"));
-  const data = await res.json();
-  let html="";
-  data.forEach(r=>{
-    const tanggal = r[Object.keys(r)[0]] || "";
-    const gas = r[Object.keys(r)[1]] || "";
-    const hargaGas = r[Object.keys(r)[2]] || "";
-    const ttp = r[Object.keys(r)[3]] || "";
-    const hargaTtp = r[Object.keys(r)[4]] || "";
-    const lain = r[Object.keys(r)[5]] || "";
-    const hargaLain = r[Object.keys(r)[6]] || "";
-    const jumlah = r[Object.keys(r)[7]] || "";
-
-    html+=`<div class="card">
-      <b>📅 ${tanggal}</b><br><br>
-      ${gas ? `<div class="small">Gas: ${gas} ${hargaGas}</div>` : ""}
-      ${ttp ? `<div class="small">Tutup: ${ttp} ${hargaTtp}</div>` : ""}
-      ${lain ? `<div class="small">Lainnya: ${lain} ${hargaLain}</div>` : ""}
-      <hr><b>Jumlah Pengeluaran: ${ribuan(toNumber(jumlah))}</b>
-    </div>`;
-  });
-  document.getElementById("pengeluaran").innerHTML = html || "Tidak ada data";
-}
-
-function togglePengeluaran(){document.getElementById("pengeluaran").classList.toggle("hidden");}
-
-// ===== INIT =====
-loadHarian();
-loadBulanan();
-loadPengeluaran();
-loadSalesChart();
-</script>
+  </div>
+</div>
+<div id="navbar-container"></div>
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="navbar.js"></script>
+<script src="penjualan.js"></script>
 </body>
 </html>

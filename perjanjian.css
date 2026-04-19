@@ -1,0 +1,134 @@
+
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --primary:#2563eb;
+}
+/* ===== DISABLE SELECT ===== */
+*{
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+body{
+  font-family:system-ui;
+  background:var(--bg);
+  margin:0;
+  padding:20px;
+  line-height:1.6;
+  color:var(--text);
+}
+
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:20px;
+  max-width:900px;
+  margin:auto;
+  position:relative; /* penting untuk TTD overlay */
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+h2,h3{
+  text-align:center;
+}
+
+.logo{
+  display:block;
+  margin:10px auto;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.section-title{
+  margin-top:20px;
+  font-weight:700;
+}
+
+ol{
+  padding-left:20px;
+  margin:5px 0 15px;
+}
+
+/* ===== SIGNATURE AREA ===== */
+.signature{
+  margin-top:80px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.sign-box{
+  width:45%;
+  text-align:center;
+}
+
+.sign-role{
+  font-weight:600;
+  margin-bottom:60px;
+}
+
+.sign-name{
+  font-weight:700;
+}
+
+/* ===== TTD OVERLAY ===== */
+.ttd-overlay{
+  position:absolute;
+  bottom:10px;        /* posisi paling bawah konten */
+  left:15px;          /* condong ke pihak pertama */
+  width:160px;
+  opacity:.9;
+}
+
+.ttd-overlay img{
+  width:100%;
+}
+
+/* WRAPPER */
+.back-wrap{
+  margin-top:32px;
+  display:flex;
+  justify-content:center;
+}
+
+/* BUTTON */
+.btn-back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:14px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:600;
+  font-size:0.95rem;
+  text-decoration:none;
+  box-shadow:0 8px 20px rgba(37,99,235,.35);
+  transition:all .25s ease;
+}
+
+/* HOVER */
+.btn-back:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 28px rgba(37,99,235,.45);
+  opacity:.95;
+}
+
+/* ACTIVE (KLIK) */
+.btn-back:active{
+  transform:translateY(-1px) scale(.98);
+  box-shadow:0 6px 12px rgba(37,99,235,.3);
+}
+
+/* DARK MODE TUNING */
+body.dark .btn-back{
+  box-shadow:0 8px 20px rgba(59,130,246,.4);
+}

@@ -1,14 +1,19 @@
 {
   "name": "FAMILI WATER Dashboard",
-  "short_name": "FAMILI INVEST",
+  "short_name": "FAMILI",
   "description": "Dashboard Investor & Operasional FAMILI WATER",
-  "start_url": "login.html",
-  "scope": "./",
+  "start_url": "/login.html",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f4f6f8",
+  "background_color": "#f8fafc",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "icons": [
+    {
+      "src": "ikon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
     {
       "src": "ikon-512.png",
       "sizes": "512x512",
