@@ -74,27 +74,56 @@ auth.onAuthStateChanged(async user=>{
   const nama = d.nama || "User";
   const foto = d.fotoProfil || "";
   const portofolio = d.portofolio || 0;
-  const ret = d.return || 0;
-
-  let percent = 0;
-  if(portofolio > 0){
-    percent = (ret / portofolio) * 100;
-  }
-
-  document.getElementById("namaUser").innerText = nama;
-
-  setTimeout(()=>{
-    animateNumber(document.getElementById("totalInvestasi"), portofolio);
-  },100);
   
-  setTimeout(()=>{
-    animateNumber(document.getElementById("totalReturn"), ret);
-  },250);
-
+  // ===== 🔥 AMBIL TOTAL RETURN DARI SUBCOLLECTION ROI =====
+  let totalReturn = 0;
+  
+  try {
+    const roiSnap = await db.collection("investor")
+      .doc(uid)
+      .collection("ROI")
+      .get();
+  
+    roiSnap.forEach(doc => {
+      const data = doc.data();
+  
+      // 🔥 pastikan hanya milik user (kalau ada field uid)
+      if (!data.uid || data.uid === uid) {
+        totalReturn += data.return || 0;
+      }
+    });
+  
+  } catch (err) {
+    console.warn("⚠️ Gagal ambil ROI:", err);
+  }
+  
+  // ===== 🔥 HITUNG PERSEN =====
+  let percent = 0;
+  
+  if (portofolio > 0) {
+    percent = (totalReturn / portofolio) * 100;
+  }
+  
+  // ===== 🔥 ANIMATE UI =====
+  setTimeout(() => {
+    animateNumber(
+      document.getElementById("totalInvestasi"),
+      portofolio
+    );
+  }, 100);
+  
+  setTimeout(() => {
+    animateNumber(
+      document.getElementById("totalReturn"),
+      totalReturn
+    );
+  }, 250);
+  
+  // ===== 🔥 SET PERSEN =====
   const percentEl = document.getElementById("percentReturn");
   percentEl.innerText = formatPercent(percent);
-
-  if(percent < 0){
+  
+  if (percent < 0) {
     percentEl.classList.add("red");
   }
 

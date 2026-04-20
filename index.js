@@ -58,7 +58,28 @@ auth.onAuthStateChanged(async user=>{
 
   // ===== SUMMARY (🔥 sesuai request kamu) =====
   const investasi = d.portofolio || 0;
-  const ret = d.return || 0;
+  // ===== 🔥 AMBIL RETURN DARI SUBCOLLECTION ROI =====
+  let totalReturn = 0;
+  
+  try {
+    const roiSnap = await db
+      .collection("investor")
+      .doc(user.uid)
+      .collection("ROI")
+      .get();
+  
+    roiSnap.forEach(doc => {
+      const data = doc.data();
+  
+      // 🔥 pastikan uid sesuai (kalau field uid ada)
+      if (!data.uid || data.uid === user.uid) {
+        totalReturn += Number(data.return || 0);
+      }
+    });
+  
+  } catch (err) {
+    console.error("❌ Gagal ambil ROI:", err);
+  }
 
   // 🔥 FIX: 406 → 40.60%
   const asset = (d.asset || 0) / 10;
@@ -74,7 +95,7 @@ auth.onAuthStateChanged(async user=>{
   animateValue(
     document.getElementById("sumReturn"),
     0,
-    ret,
+    totalReturn,
     1200,
     true
   );
