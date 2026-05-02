@@ -71,79 +71,80 @@ auth.onAuthStateChanged(async user=>{
   loadStatement();
   setTimeout(initTab, 50);
 
+  // ================= USER DATA =================
   const nama = d.nama || "User";
   const foto = d.fotoProfil || "";
-  const portofolio = d.portofolio || 0;
-  
-  // ===== 🔥 AMBIL TOTAL RETURN DARI SUBCOLLECTION ROI =====
+  const portofolio = Number(d.portofolio) || 0;
+
+  // 🔥 SET NAMA USER (INI YANG KAMU LUPA)
+  document.getElementById("namaUser").innerText = nama;
+
+  // ================= TOTAL ROI =================
   let totalReturn = 0;
-  
+
   try {
     const roiSnap = await db.collection("investor")
       .doc(uid)
       .collection("ROI")
       .get();
-  
+
     roiSnap.forEach(doc => {
       const data = doc.data();
-  
-      // 🔥 pastikan hanya milik user (kalau ada field uid)
-      if (!data.uid || data.uid === uid) {
-        totalReturn += data.return || 0;
-      }
+      totalReturn += Number(data.return) || 0;
     });
-  
+
   } catch (err) {
     console.warn("⚠️ Gagal ambil ROI:", err);
   }
-  
-  // ===== 🔥 HITUNG PERSEN =====
+
+  // ================= PERSEN =================
   let percent = 0;
-  
+
   if (portofolio > 0) {
     percent = (totalReturn / portofolio) * 100;
   }
-  
-  // ===== 🔥 ANIMATE UI =====
+
+  // ================= ANIMASI =================
   setTimeout(() => {
     animateNumber(
       document.getElementById("totalInvestasi"),
       portofolio
     );
   }, 100);
-  
+
   setTimeout(() => {
     animateNumber(
       document.getElementById("totalReturn"),
       totalReturn
     );
   }, 250);
-  
-  // ===== 🔥 SET PERSEN =====
+
+  // ================= PERCENT UI =================
   const percentEl = document.getElementById("percentReturn");
   percentEl.innerText = formatPercent(percent);
-  
+
   if (percent < 0) {
     percentEl.classList.add("red");
   }
 
+  // ================= AVATAR =================
   const avatar = document.getElementById("avatar");
 
-  if(foto){
+  if (foto) {
     const img = new Image();
     img.src = foto;
 
-    img.onload = ()=>{
+    img.onload = () => {
       avatar.innerHTML = "";
       avatar.appendChild(img);
     };
 
-    img.onerror = ()=>{
-      avatar.innerText = nama.charAt(0).toUpperCase();
+    img.onerror = () => {
+      avatar.innerText = nama.charAt(0).charAt(0).toUpperCase();
     };
 
-  }else{
-    avatar.innerText = nama.charAt(0).toUpperCase();
+  } else {
+    avatar.innerText = nama.charAt(0).charAt(0).toUpperCase();
   }
 
 });
@@ -201,10 +202,6 @@ async function loadROI(uid){
 
   const el = document.getElementById("roiList");
 
-  // 🔥 ambil doc utama (buat total ROI)
-  const userDoc = await db.collection("investor").doc(uid).get();
-  const totalReturnUtama = userDoc.data()?.return || 0;
-
   const snap = await db.collection("investor")
     .doc(uid)
     .collection("ROI")
@@ -216,6 +213,7 @@ async function loadROI(uid){
   }
 
   const map = {};
+  let totalReturnUtama = 0; // 🔥 TOTAL GLOBAL
 
   snap.forEach(doc=>{
     const id = doc.id;
@@ -223,8 +221,10 @@ async function loadROI(uid){
 
     const bulan = formatBulan(id);
 
-    const ret = data.return || 0;
-    const asset = data.asset || 0;
+    const ret = Number(data.return) || 0;
+    const asset = Number(data.asset) || 0;
+
+    totalReturnUtama += ret; // 🔥 JUMLAH TOTAL ROI
 
     if(!map[bulan]){
       map[bulan] = {
@@ -265,13 +265,11 @@ async function loadROI(uid){
     `;
   });
 
-  // ================= TOTAL (🔥 DARI DOC UTAMA) =================
+  // 🔥 TOTAL ROI FINAL
   html += `
     <div class="roi-total">
       <span>Jumlah ROI</span>
-      <span>
-        ${rupiah(totalReturnUtama)}
-      </span>
+      <span>${rupiah(totalReturnUtama)}</span>
     </div>
   `;
 
