@@ -62,7 +62,7 @@ async function loadPenjualanRows(){
 
   arr.forEach(d=>{
     const pengeluaran = d.pengeluaran?.totalPengeluaran || 0;
-    const margin = (d.marginKlien || 0) - pengeluaran;
+    const margin = d.marginKlien || 0; // marginKlien di Firestore sudah margin bersih, jangan dikurangi pengeluaran lagi
 
     totalPenjualan += d.klien || 0;
     totalPengeluaran += pengeluaran;
@@ -104,10 +104,8 @@ async function openPenjualanDetail(tanggal){
   setTimeout(()=>{ sheet.style.transform = "translateY(0)"; }, 10);
 
   try{
-    const key = formatTanggalKeyPenjualan(tanggal);
-
-    const snap = await db.collection("pengeluaran")
-      .where("tanggal","==",key)
+    const snap = await db.collection("inputAdmin")
+      .where("tanggal","==",tanggal)
       .limit(1)
       .get();
 
@@ -116,50 +114,40 @@ async function openPenjualanDetail(tanggal){
       return;
     }
 
-    const p = snap.docs[0].data();
+    const d = snap.docs[0].data();
+    const p = d.pengeluaran || {};
 
-    const gasQty = p.gas?.qty ?? 0;
-    const gasCost = p.gas?.cost ?? 0;
-
-    const tutupQty = p.tutup?.qty ?? 0;
-    const tutupCost = p.tutup?.cost ?? 0;
-
-    const lainKet = p.lainnya?.keterangan || "-";
-    const lainCost = p.lainnya?.cost ?? 0;
-
+    const bensin = p.bensin ?? 0;
+    const gas = p.gas ?? 0;
+    const tutup = p.tutup ?? 0;
     const listrik = p.listrik ?? 0;
     const total = p.totalPengeluaran ?? 0;
+    const lainnya = Array.isArray(p.lainnya) ? p.lainnya : [];
+
+    let lainnyaHtml = "";
+    lainnya.forEach(item=>{
+      const ket = item?.keterangan || "Lainnya";
+      const harga = item?.harga ?? 0;
+      if(!harga) return;
+      lainnyaHtml += `
+        <div class="pj-detail-row">
+          <span>${ket}</span>
+          <span>${rupiah(harga)}</span>
+        </div>
+      `;
+    });
 
     el.innerHTML = `
       <div class="pj-detail-date">${formatTanggalPenjualan(tanggal)}</div>
 
-      <div class="pj-detail-row">
-        <span>Gas</span>
-        <span>${gasQty}</span>
-        <span>${rupiah(gasCost)}</span>
-      </div>
-
-      <div class="pj-detail-row">
-        <span>Tutup</span>
-        <span>${tutupQty}</span>
-        <span>${rupiah(tutupCost)}</span>
-      </div>
-
-      <div class="pj-detail-row">
-        <span>Lainnya</span>
-        <span>${lainKet}</span>
-        <span>${rupiah(lainCost)}</span>
-      </div>
-
-      <div class="pj-detail-row">
-        <span>Listrik</span>
-        <span></span>
-        <span>${rupiah(listrik)}</span>
-      </div>
+      ${gas ? `<div class="pj-detail-row"><span>Gas</span><span>${rupiah(gas)}</span></div>` : ""}
+      ${tutup ? `<div class="pj-detail-row"><span>Tutup</span><span>${rupiah(tutup)}</span></div>` : ""}
+      ${bensin ? `<div class="pj-detail-row"><span>Bensin</span><span>${rupiah(bensin)}</span></div>` : ""}
+      ${listrik ? `<div class="pj-detail-row"><span>Listrik</span><span>${rupiah(listrik)}</span></div>` : ""}
+      ${lainnyaHtml}
 
       <div class="pj-detail-row pj-total-row">
         <span>Total</span>
-        <span></span>
         <span>${rupiah(total)}</span>
       </div>
     `;
@@ -215,18 +203,29 @@ pjSheetDetail.addEventListener("touchend", ()=>{
   }
 });
 
-/* ================= PENJUALAN: FILTER POPUP ================= */
+/* ================= PENJUALAN: FILTER POPUP (custom picker) ================= */
 function openPenjualanFilter(){
   const popup = document.getElementById("pjPopupFilter");
   const sheet = document.getElementById("pjPopupFilterContent");
+
+  // sinkronkan chip aktif sesuai bulan/tahun yang sedang dipakai
+  document.querySelectorAll("#pjBulanList .pj-picker-item").forEach(item=>{
+    item.classList.toggle("active", Number(item.dataset.value) === pjSelectedMonth);
+  });
+  document.querySelectorAll("#pjTahunList .pj-picker-item").forEach(item=>{
+    item.classList.toggle("active", Number(item.dataset.value) === pjSelectedYear);
+  });
 
   popup.classList.add("show");
   setTimeout(()=>{ sheet.style.transform = "translateY(0)"; }, 10);
 }
 
 function applyPenjualanFilter(){
-  pjSelectedMonth = Number(document.getElementById("pjBulanSelect").value);
-  pjSelectedYear = Number(document.getElementById("pjTahunSelect").value);
+  const bulanActive = document.querySelector("#pjBulanList .pj-picker-item.active");
+  const tahunActive = document.querySelector("#pjTahunList .pj-picker-item.active");
+
+  if(bulanActive) pjSelectedMonth = Number(bulanActive.dataset.value);
+  if(tahunActive) pjSelectedYear = Number(tahunActive.dataset.value);
 
   closePenjualanFilter();
   loadPenjualanRows();
@@ -241,15 +240,32 @@ function closePenjualanFilter(){
 }
 
 function initPenjualanTahun(){
-  const el = document.getElementById("pjTahunSelect");
+  const el = document.getElementById("pjTahunList");
   const now = new Date().getFullYear();
 
   for(let i=now; i>=2020; i--){
-    const opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = i;
-    el.appendChild(opt);
+    const item = document.createElement("div");
+    item.className = "pj-picker-item";
+    item.dataset.value = i;
+    item.textContent = i;
+    el.appendChild(item);
   }
+
+  // klik chip bulan
+  document.querySelectorAll("#pjBulanList .pj-picker-item").forEach(item=>{
+    item.addEventListener("click", ()=>{
+      document.querySelectorAll("#pjBulanList .pj-picker-item").forEach(i=> i.classList.remove("active"));
+      item.classList.add("active");
+    });
+  });
+
+  // klik chip tahun
+  document.querySelectorAll("#pjTahunList .pj-picker-item").forEach(item=>{
+    item.addEventListener("click", ()=>{
+      document.querySelectorAll("#pjTahunList .pj-picker-item").forEach(i=> i.classList.remove("active"));
+      item.classList.add("active");
+    });
+  });
 }
 
 document.getElementById("pjBulanBtn").addEventListener("click", openPenjualanFilter);

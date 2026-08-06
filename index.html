@@ -136,22 +136,24 @@
       <div class="pj-popup-content" id="pjPopupFilterContent">
         <div class="pj-popup-title">Filter Periode</div>
 
-        <select id="pjBulanSelect">
-          <option value="0">Januari</option>
-          <option value="1">Februari</option>
-          <option value="2">Maret</option>
-          <option value="3">April</option>
-          <option value="4">Mei</option>
-          <option value="5">Juni</option>
-          <option value="6">Juli</option>
-          <option value="7">Agustus</option>
-          <option value="8">September</option>
-          <option value="9">Oktober</option>
-          <option value="10">November</option>
-          <option value="11">Desember</option>
-        </select>
+        <div class="pj-picker-label">Bulan</div>
+        <div class="pj-picker-list" id="pjBulanList">
+          <div class="pj-picker-item" data-value="0">Jan</div>
+          <div class="pj-picker-item" data-value="1">Feb</div>
+          <div class="pj-picker-item" data-value="2">Mar</div>
+          <div class="pj-picker-item" data-value="3">Apr</div>
+          <div class="pj-picker-item" data-value="4">Mei</div>
+          <div class="pj-picker-item" data-value="5">Jun</div>
+          <div class="pj-picker-item" data-value="6">Jul</div>
+          <div class="pj-picker-item" data-value="7">Agu</div>
+          <div class="pj-picker-item" data-value="8">Sep</div>
+          <div class="pj-picker-item" data-value="9">Okt</div>
+          <div class="pj-picker-item" data-value="10">Nov</div>
+          <div class="pj-picker-item" data-value="11">Des</div>
+        </div>
 
-        <select id="pjTahunSelect"></select>
+        <div class="pj-picker-label">Tahun</div>
+        <div class="pj-picker-list" id="pjTahunList"></div>
 
         <button id="pjApplyFilterBtn">Terapkan</button>
       </div>

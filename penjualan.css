@@ -192,21 +192,43 @@
   opacity:.8;
 }
 
-/* ================= PENJUALAN: SELECT ================= */
-.pj-popup select{
-  width:100%;
-  padding:12px;
-  margin-bottom:12px;
-  border-radius:10px;
-  border:1px solid #e5e7eb;
-  font-size:.85rem;
-  outline:none;
-  background:#f9fafb;
+/* ================= PENJUALAN: CUSTOM PICKER ================= */
+.pj-picker-label{
+  font-size:.72rem;
+  font-weight:600;
+  color:var(--muted);
+  margin:2px 0 8px;
 }
 
-.pj-popup select:focus{
-  border-color:#2563eb;
-  box-shadow:0 0 0 2px rgba(37,99,235,0.2);
+.pj-picker-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.pj-picker-item{
+  padding:9px 14px;
+  border-radius:10px;
+  background:#f1f5f9;
+  border:1px solid #e5e7eb;
+  font-size:.8rem;
+  color:var(--text);
+  cursor:pointer;
+  transition:.15s ease;
+  user-select:none;
+}
+
+.pj-picker-item:active{
+  transform:scale(0.94);
+}
+
+.pj-picker-item.active{
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  border-color:transparent;
+  color:#fff;
+  font-weight:600;
+  box-shadow:0 8px 18px rgba(37,99,235,.3);
 }
 
 /* ================= PENJUALAN: BUTTON ================= */
@@ -238,7 +260,7 @@
 
 .pj-detail-row{
   display:grid;
-  grid-template-columns:1fr 50px 80px;
+  grid-template-columns:1fr auto;
   align-items:center;
   padding:8px 4px;
   font-size:.8rem;
@@ -248,12 +270,6 @@
 .pj-detail-row span:first-child{
   font-weight:500;
   color:var(--text);
-}
-
-.pj-detail-row span:nth-child(2){
-  text-align:center;
-  color:var(--muted);
-  font-size:.72rem;
 }
 
 .pj-detail-row span:last-child{
