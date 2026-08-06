@@ -1,0 +1,66 @@
+/* ================= PROFIL: CARD ATAS ================= */
+.profil-card{
+  text-align:center;
+  padding:24px 18px;
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:0 20px 40px rgba(37,99,235,.10);
+}
+
+.profil-avatar{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid rgba(37,99,235,.35);
+  background:#fff;
+  margin-bottom:10px;
+}
+
+.profil-card h3{
+  margin:4px 0 2px;
+}
+
+/* ================= PROFIL: DETAIL ROW ================= */
+.profil-row{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid rgba(37,99,235,.08);
+  font-size:.9rem;
+}
+
+.profil-row:last-child{
+  border-bottom:none;
+}
+
+.profil-row span:first-child{
+  color:var(--muted);
+}
+
+/* ================= PROFIL: TOMBOL LOGOUT ================= */
+.btn-logout{
+  width:100%;
+  margin-top:20px;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  color:#fff;
+  font-size:.95rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s ease;
+}
+
+.btn-logout:hover{
+  transform:translateY(-1px);
+  box-shadow:0 18px 40px rgba(185,28,28,.35);
+}
+
+.btn-logout:active{
+  transform:scale(0.97);
+}

@@ -2,135 +2,303 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="index.css">
-<link rel="stylesheet" href="navbar.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#2563eb">
-<link rel="icon" href="ikon-512.png">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<title>Home</title>
-</head>
+<title>Famili Water - Dashboard Investor</title>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="penjualan.css">
+<link rel="stylesheet" href="portofolio.css">
+<link rel="stylesheet" href="profil.css">
+</head>
 <body>
 
-<div class="header"></div>
+<!-- ================= MAIN CONTENT ================= -->
+<main id="app">
 
-<!-- ===== HERO ===== -->
-<div class="home-card">
-  <div class="logo">
-    <img src="Logofw.png">
-  </div>
+  <!-- ============ VIEW: HOME ============ -->
+  <section id="view-home" class="view">
+    <div class="home-header"></div>
 
-  <div>
-    <div class="title">FAMILI WATER</div>
-    <div class="subtitle" id="greeting">-</div>
-    <div class="date" id="todayDate">-</div>
-  </div>
-</div>
-
-<div class="container">
-<!-- ===== SUMMARY ===== -->
-<div class="summary">
-
-  <div class="summary-card">
-    <div class="label">Total Investasi</div>
-    <div class="value" id="sumInvestasi">Rp 0</div>
-  </div>
-
-  <div class="summary-card">
-    <div class="label">Return</div>
-    <div class="value green" id="sumReturn">Rp 0</div>
-  </div>
-
-  <div class="summary-card">
-    <div class="label">Kepemilikan</div>
-    <div class="value" id="sumAsset">0%</div>
-  </div>
-
-</div>
-
-<!-- ===== CHART ===== -->
-<div class="chart-card">
-  <div class="chart-header">
-    Performa Bulan Ini
-  </div>
-  <canvas id="myChart"></canvas>
-</div>
-
-<!-- ===== LAST REPORT ===== -->
-<div class="report-card">
-
-  <div class="report-date" id="reportDate">-</div>
-
-  <div class="report-grid">
-
-    <div class="report-item">
-      <div class="report-label">Closing</div>
-      <div class="report-value" id="rClosing">0</div>
+    <div class="home-card">
+      <div class="home-logo">
+        <img src="logofw.png" alt="Logo Famili Water" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <div class="home-title">FAMILI WATER</div>
+        <div class="home-subtitle" id="greeting">-</div>
+        <div class="home-date" id="todayDate">-</div>
+      </div>
     </div>
 
-    <div class="report-item">
-      <div class="report-label">Omset</div>
-      <div class="report-value" id="rOmset">Rp 0</div>
+    <div class="home-summary">
+      <div class="summary-card">
+        <div class="label">Total Investasi</div>
+        <div class="value" id="sumInvestasi">Rp 0</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Return</div>
+        <div class="value green" id="sumReturn">Rp 0</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Kepemilikan</div>
+        <div class="value" id="sumAsset">0%</div>
+      </div>
     </div>
 
-    <div class="report-item">
-      <div class="report-label">Pengeluaran</div>
-      <div class="report-value red" id="rPengeluaran">Rp 0</div>
+    <div class="chart-card">
+      <div class="chart-header">Performa Bulan Ini</div>
+      <canvas id="myChart"></canvas>
     </div>
 
-    <div class="report-item">
-      <div class="report-label">Margin</div>
-      <div class="report-value green" id="rMargin">Rp 0</div>
+    <div class="report-card">
+      <div class="report-date" id="reportDate">-</div>
+      <div class="report-grid">
+        <div class="report-item">
+          <div class="report-label">Closing</div>
+          <div class="report-value" id="rClosing">0</div>
+        </div>
+        <div class="report-item">
+          <div class="report-label">Omset</div>
+          <div class="report-value" id="rOmset">Rp 0</div>
+        </div>
+        <div class="report-item">
+          <div class="report-label">Pengeluaran</div>
+          <div class="report-value red" id="rPengeluaran">Rp 0</div>
+        </div>
+        <div class="report-item">
+          <div class="report-label">Margin</div>
+          <div class="report-value green" id="rMargin">Rp 0</div>
+        </div>
+      </div>
     </div>
 
-  </div>
-
-</div>
-<div class="monthly-card">
-
-  <div class="monthly-header">
-    Ringkasan Bulan Ini
-  </div>
-
-  <div class="monthly-grid">
-
-    <div class="monthly-item">
-      <div class="monthly-label">Total Closing</div>
-      <div class="monthly-value" id="mKlien">0</div>
+    <div class="monthly-card">
+      <div class="monthly-header">Ringkasan Bulan Ini</div>
+      <div class="monthly-grid">
+        <div class="monthly-item">
+          <div class="monthly-label">Total Closing</div>
+          <div class="monthly-value" id="mKlien">0</div>
+        </div>
+        <div class="monthly-item">
+          <div class="monthly-label">Total Margin</div>
+          <div class="monthly-value green" id="mMargin">Rp 0</div>
+        </div>
+      </div>
     </div>
 
-    <div class="monthly-item">
-      <div class="monthly-label">Total Margin</div>
-      <div class="monthly-value green" id="mMargin">Rp 0</div>
+    <div class="noted-card">
+      <div class="noted-header">Noted</div>
+      <div class="noted-date" id="notedDate">-</div>
+      <div class="noted-image" id="notedImage"></div>
+      <div class="noted-content" id="notedContent">-</div>
+    </div>
+  </section>
+
+  <!-- ============ VIEW: PENJUALAN ============ -->
+  <section id="view-penjualan" class="view">
+    <div class="pj-header"></div>
+
+    <div class="pj-container">
+      <div class="pj-card">
+
+        <div class="pj-logo-wrap">
+          <img src="logofw.png" class="pj-logo" alt="Logo Famili Water" onerror="this.style.display='none'">
+        </div>
+
+        <div class="pj-title">Data Harian</div>
+        <div class="pj-bulan" id="pjBulanBtn">
+          <span id="pjTextBulan"></span>
+          <span class="pj-arrow">›</span>
+        </div>
+
+        <table class="pj-table">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Penjualan</th>
+              <th>Pengeluaran</th>
+              <th>Margin</th>
+            </tr>
+          </thead>
+          <tbody id="pjTableBody"></tbody>
+        </table>
+
+        <div class="pj-total" id="pjTotalBox"></div>
+
+      </div>
     </div>
 
-  </div>
+    <!-- POPUP FILTER -->
+    <div class="pj-popup" id="pjPopupFilter">
+      <div class="pj-popup-content" id="pjPopupFilterContent">
+        <div class="pj-popup-title">Filter Periode</div>
 
-</div>
-<!-- ===== NOTED ===== -->
-<div class="noted-card">
+        <select id="pjBulanSelect">
+          <option value="0">Januari</option>
+          <option value="1">Februari</option>
+          <option value="2">Maret</option>
+          <option value="3">April</option>
+          <option value="4">Mei</option>
+          <option value="5">Juni</option>
+          <option value="6">Juli</option>
+          <option value="7">Agustus</option>
+          <option value="8">September</option>
+          <option value="9">Oktober</option>
+          <option value="10">November</option>
+          <option value="11">Desember</option>
+        </select>
 
-  <div class="noted-header">
-    Noted
-  </div>
+        <select id="pjTahunSelect"></select>
 
-  <div class="noted-date" id="notedDate">-</div>
+        <button id="pjApplyFilterBtn">Terapkan</button>
+      </div>
+    </div>
 
-  <div class="noted-image" id="notedImage"></div>
+    <!-- POPUP DETAIL -->
+    <div class="pj-popup" id="pjPopupDetail">
+      <div class="pj-popup-content" id="pjPopupDetailContent">
+        <div class="pj-popup-title">Detail Pengeluaran</div>
+        <div id="pjDetailContent"></div>
+      </div>
+    </div>
+  </section>
 
-  <div class="noted-content" id="notedContent">-</div>
+  <!-- ============ VIEW: PORTOFOLIO ============ -->
+  <section id="view-portofolio" class="view">
+    <div class="pf-header"></div>
 
-</div>
-</div>
-<div id="navbar-container"></div>
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <div class="pf-container">
+      <div class="pf-card">
+
+        <div class="pf-top">
+          <div class="pf-avatar" id="pfAvatar"></div>
+          <div class="pf-name" id="pfNamaUser">-</div>
+        </div>
+
+        <div class="pf-balance">
+          <div class="pf-label">Total Investasi</div>
+          <div class="pf-amount" id="pfTotalInvestasi">Rp 0</div>
+        </div>
+
+        <div class="pf-return-box">
+          <div>
+            <div class="pf-label">Return</div>
+            <div class="pf-amount pf-small" id="pfTotalReturn">Rp 0</div>
+          </div>
+          <div class="pf-badge" id="pfPercentReturn">0%</div>
+        </div>
+
+      </div>
+
+      <!-- ================= TAB MENU ================= -->
+      <div class="pf-tab-menu" id="pfTabMenu">
+        <div class="pf-tab-indicator" id="pfTabIndicator"></div>
+        <div class="pf-tab-item active" data-tab="roi">
+          <div class="pf-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 17l6-6 4 4 7-7v6h2V4h-10v2h6l-5 5-4-4-8 8z"/>
+            </svg>
+          </div>
+          <span>ROI</span>
+        </div>
+
+        <div class="pf-tab-item" data-tab="statement">
+          <div class="pf-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4zm0 4h10v2H4z"/>
+            </svg>
+          </div>
+          <span>Statement</span>
+        </div>
+
+        <div class="pf-tab-item" data-tab="valuasi">
+          <div class="pf-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 3h2v18H3zm4 10h2v8H7zm4-6h2v14h-2zm4 4h2v10h-2zm4-8h2v18h-2z"/>
+            </svg>
+          </div>
+          <span>Valuasi</span>
+        </div>
+      </div>
+
+      <!-- ================= TAB CONTENT ================= -->
+      <div class="pf-tab-content">
+        <div class="pf-tab-pane active">
+          <div id="pfRoiList"></div>
+        </div>
+
+        <div class="pf-tab-pane">
+          <div id="pfStatementList"></div>
+        </div>
+
+        <div class="pf-tab-pane">
+          <h3>Maintenance</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VIEW: PROFIL ============ -->
+  <section id="view-profil" class="view">
+    <h2 class="view-title">Profil</h2>
+
+    <div class="profil-card">
+      <img src="logofw.png" class="profil-avatar" alt="Avatar" onerror="this.style.display='none'">
+      <h3 id="profil-nama">Nama Investor</h3>
+      <p class="muted-text" id="profil-email">email@investor.com</p>
+    </div>
+
+    <div class="card-block">
+      <h3>Detail Akun</h3>
+      <div class="profil-row">
+        <span>No. Telepon</span>
+        <span id="profil-telepon">-</span>
+      </div>
+      <div class="profil-row">
+        <span>Bergabung Sejak</span>
+        <span id="profil-tanggal">-</span>
+      </div>
+    </div>
+
+    <button id="btnLogout" class="btn-logout">Keluar</button>
+  </section>
+
+</main>
+
+<!-- ================= BOTTOM NAV ================= -->
+<nav class="bottom-nav">
+  <button class="nav-btn" data-view="home">
+    <i class="fa-solid fa-house nav-icon"></i>
+    <span class="nav-label">Home</span>
+  </button>
+  <button class="nav-btn" data-view="penjualan">
+    <i class="fa-solid fa-chart-column nav-icon"></i>
+    <span class="nav-label">Penjualan</span>
+  </button>
+  <button class="nav-btn" data-view="portofolio">
+    <i class="fa-solid fa-wallet nav-icon"></i>
+    <span class="nav-label">Portofolio</span>
+  </button>
+  <button class="nav-btn" data-view="profil">
+    <i class="fa-solid fa-user nav-icon"></i>
+    <span class="nav-label">Profil</span>
+  </button>
+</nav>
+
+<!-- FIREBASE (dipakai untuk cek login & ambil data) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="navbar.js"></script>
 <script src="index.js"></script>
+<script src="home.js"></script>
+<script src="penjualan.js"></script>
+<script src="portofolio.js"></script>
+<script src="profil.js"></script>
+
 </body>
 </html>
