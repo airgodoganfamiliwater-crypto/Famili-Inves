@@ -1,0 +1,118 @@
+/* ================= PROFIL: AVATAR + TOMBOL EDIT ================= */
+.profil-avatar-wrap{
+  position:relative;
+  display:inline-block;
+}
+
+.profil-avatar-edit{
+  position:absolute;
+  bottom:0;
+  right:0;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  border:2px solid #fff;
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  color:#fff;
+  font-size:.68rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(37,99,235,.35);
+}
+
+.profil-avatar-edit:active{
+  transform:scale(0.92);
+}
+
+/* ================= MODAL CROP: OVERLAY ================= */
+.crop-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  padding:20px;
+}
+
+.crop-modal.show{
+  display:flex;
+}
+
+/* ================= MODAL CROP: BOX ================= */
+.crop-box{
+  width:100%;
+  max-width:340px;
+  background:#fff;
+  border-radius:20px;
+  padding:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.3);
+}
+
+.crop-title{
+  text-align:center;
+  font-weight:700;
+  font-size:.9rem;
+  color:var(--text);
+  margin-bottom:14px;
+}
+
+/* ================= MODAL CROP: CANVAS ================= */
+.crop-canvas-wrap{
+  width:100%;
+  aspect-ratio:1/1;
+  border-radius:50%;
+  overflow:hidden;
+  margin:0 auto 16px;
+  background:#0f172a;
+  touch-action:none;
+}
+
+.crop-canvas-wrap canvas{
+  width:100%;
+  height:100%;
+  display:block;
+  cursor:grab;
+  touch-action:none;
+}
+
+/* ================= MODAL CROP: SLIDER ================= */
+.crop-box input[type="range"]{
+  width:100%;
+  margin-bottom:18px;
+  accent-color:var(--primary);
+}
+
+/* ================= MODAL CROP: TOMBOL ================= */
+.crop-actions{
+  display:flex;
+  gap:10px;
+}
+
+.crop-btn{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  font-size:.85rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.crop-btn-secondary{
+  background:#f1f5f9;
+  color:var(--text);
+}
+
+.crop-btn-primary{
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  color:#fff;
+}
+
+.crop-btn:active{
+  transform:scale(0.96);
+}

@@ -61,6 +61,12 @@ async function loadPortofolioData(){
 
   document.getElementById("pfNamaUser").innerText = nama;
 
+  const jumlahInvestasi = Number(d.jumlahInvestasi) || 0;
+  document.getElementById("pfDealNamaInvestor").innerText = nama;
+  document.getElementById("pfDealNamaInvestor2").innerText = nama;
+  document.getElementById("pfDealNamaInvestorSign").innerText = nama;
+  document.getElementById("pfDealJumlahInvestasi").innerText = jumlahInvestasi.toLocaleString("id-ID");
+
   let totalReturn = 0;
   try{
     const roiSnap = await db.collection("investor").doc(uid).collection("ROI").get();
@@ -114,7 +120,7 @@ function initPortofolioTab(){
 }
 
 function switchPortofolioTab(tab){
-  const indexMap = { roi:0, statement:1, valuasi:2 };
+  const indexMap = { roi:0, statement:1, deal:2 };
   pfCurrentTabIndex = indexMap[tab];
 
   const panes = document.querySelectorAll("#view-portofolio .pf-tab-pane");

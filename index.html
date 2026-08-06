@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="penjualan.css">
 <link rel="stylesheet" href="portofolio.css">
 <link rel="stylesheet" href="profil.css">
+<link rel="stylesheet" href="crop.css">
 </head>
 <body>
 
@@ -24,7 +25,7 @@
 
     <div class="home-card">
       <div class="home-logo">
-        <img src="logofw.png" alt="Logo Famili Water" onerror="this.style.display='none'">
+        <img class="js-foto-profil" src="logofw.png" alt="Logo Famili Water" onerror="this.src='logofw.png'">
       </div>
       <div>
         <div class="home-title">FAMILI WATER</div>
@@ -216,13 +217,13 @@
           <span>Statement</span>
         </div>
 
-        <div class="pf-tab-item" data-tab="valuasi">
+        <div class="pf-tab-item" data-tab="deal">
           <div class="pf-icon">
             <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 3h2v18H3zm4 10h2v8H7zm4-6h2v14h-2zm4 4h2v10h-2zm4-8h2v18h-2z"/>
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM8 12h8v2H8v-2zm0 4h8v2H8v-2zm5-8V3.5L18.5 8H13z"/>
             </svg>
           </div>
-          <span>Valuasi</span>
+          <span>Deal</span>
         </div>
       </div>
 
@@ -237,7 +238,141 @@
         </div>
 
         <div class="pf-tab-pane">
-          <h3>Maintenance</h3>
+          <div class="pf-deal-doc">
+
+            <img src="logofw.png" class="pf-deal-logo" alt="Logo">
+
+            <h2 class="pf-deal-h2">Air Godogan - FAMILI WATER</h2>
+            <p class="pf-deal-center">JL. LANGGENJATI KAMPUNG PARIS BAYUR LOR KARAWANG (+62) 85759995235<br>05 November 2025</p>
+
+            <h3 class="pf-deal-h3">PERJANJIAN INVESTASI</h3>
+            <p class="pf-deal-center">
+              Antara Abdul Faqih, pemilik dan pengelola Air Godogan – FAMILI WATER<br>
+              dan <span id="pfDealNamaInvestor">(Nama Investor)</span>, Investor
+            </p>
+
+            <div class="pf-deal-section-title">BAB I – IDENTITAS PARA PIHAK</div>
+
+            <p><strong>Pasal 1 – Pihak Pertama</strong></p>
+            <ol>
+              <li>Nama: Abdul Faqih</li>
+              <li>Jabatan: Pemilik / Pengelola Usaha</li>
+              <li>Usaha: Air Godogan – FAMILI WATER</li>
+              <li>Alamat: Jl. Langgenjati Kampung Paris Desa Bayur Lor Kec. Cilamaya Kulon, Kab. Karawang</li>
+            </ol>
+
+            <p><strong>Pasal 2 – Pihak Kedua</strong></p>
+            <ol>
+              <li>Nama: <span id="pfDealNamaInvestor2">(nama investor)</span></li>
+              <li>Jabatan: Investor</li>
+            </ol>
+
+            <div class="pf-deal-section-title">BAB II – OBJEK INVESTASI</div>
+
+            <p><strong>Pasal 3 – Modal Investasi</strong></p>
+            <ol>
+              <li>Pihak Kedua setuju menanamkan modal tunai sebesar Rp <span id="pfDealJumlahInvestasi">0</span> ke Pihak Pertama untuk kegiatan usaha Air Godogan – FAMILI WATER.</li>
+              <li>Modal akan digunakan sepenuhnya untuk pengembangan dan operasional usaha.</li>
+            </ol>
+
+            <p><strong>Pasal 4 – Jangka Waktu</strong></p>
+            <ol>
+              <li>Perjanjian ini tidak memiliki jangka waktu tertentu.</li>
+              <li>Penarikan modal dapat dilakukan jika ada penggantinya, untuk menjaga kelangsungan usaha.</li>
+            </ol>
+
+            <div class="pf-deal-section-title">BAB III – BAGI HASIL</div>
+
+            <p><strong>Pasal 5 – Prinsip Bagi Hasil</strong></p>
+            <ol>
+              <li>Keuntungan dan kerugian dari usaha ditanggung bersama sesuai proporsi modal masing-masing pihak.</li>
+              <li>Bagi hasil dihitung setiap bulan atau periode tertentu dan diserahkan kepada Pihak Kedua.</li>
+            </ol>
+
+            <div class="pf-deal-section-title">BAB IV – HAK DAN KEWAJIBAN PARA PIHAK</div>
+
+            <p><strong>Pasal 6 – Hak Pihak Kedua</strong></p>
+            <ol>
+              <li>Memantau perkembangan usaha melalui laporan yang diberikan Pihak Pertama.</li>
+              <li>Memberikan masukan atau saran terkait pengelolaan usaha.</li>
+            </ol>
+
+            <p><strong>Pasal 7 – Kewajiban Pihak Kedua</strong></p>
+            <ol>
+              <li>Tidak ada kewajiban tambahan selain menanamkan modal.</li>
+            </ol>
+
+            <p><strong>Pasal 8 – Hak dan Kewajiban Pihak Pertama</strong></p>
+            <ol>
+              <li>Mengelola usaha sebaik mungkin.</li>
+              <li>Menjaga kepercayaan dan modal yang diberikan Pihak Kedua.</li>
+              <li>Mengembangkan usaha agar memberikan keuntungan maksimal bagi kedua pihak.</li>
+            </ol>
+
+            <div class="pf-deal-section-title">BAB V – PENARIKAN MODAL DAN TERMINASI</div>
+
+            <p><strong>Pasal 9 – Penarikan Modal</strong></p>
+            <ol>
+              <li>Pihak Kedua dapat menarik modalnya jika ada pihak pengganti yang siap menanamkan modal.</li>
+              <li>Penarikan modal dilakukan secara halus dan dengan pemberitahuan minimal 1 bulan sebelumnya.</li>
+            </ol>
+
+            <p><strong>Pasal 10 – Ketentuan Lain</strong></p>
+            <ol>
+              <li>Kerugian maupun keuntungan ditanggung bersama sesuai proporsi modal.</li>
+            </ol>
+
+            <div class="pf-deal-section-title">BAB VI – PENYELESAIAN SENGKETA</div>
+
+            <p><strong>Pasal 11 – Penyelesaian Sengketa</strong></p>
+            <ol>
+              <li>Perselisihan akan diselesaikan secara musyawarah.</li>
+              <li>Jika tidak tercapai kesepakatan, perselisihan diselesaikan sesuai hukum yang berlaku di Indonesia.</li>
+            </ol>
+
+            <div class="pf-deal-section-title">BAB VII – KETENTUAN LAIN-LAIN</div>
+
+            <p><strong>Pasal 12 – Kerahasiaan</strong></p>
+            <ol>
+              <li>Para pihak sepakat menjaga kerahasiaan informasi usaha.</li>
+            </ol>
+
+            <p><strong>Pasal 13 – Non-Kompetisi</strong></p>
+            <ol>
+              <li>Pihak Kedua tidak diperkenankan membuka usaha serupa yang dapat merugikan Air Godogan – FAMILI WATER selama menjadi investor.</li>
+            </ol>
+
+            <p><strong>Pasal 14 – Force Majeure</strong></p>
+            <ol>
+              <li>Para pihak dibebaskan dari kewajiban apabila terjadi hal-hal di luar kemampuan manusia, seperti bencana alam, kebakaran, atau peristiwa lain yang tidak terduga.</li>
+            </ol>
+
+            <div class="pf-deal-section-title">BAB VIII – PENUTUP</div>
+
+            <p><strong>Pasal 15 – Penandatanganan</strong></p>
+            <ol>
+              <li>Perjanjian dibuat dalam 2 (dua) rangkap, masing-masing pihak menerima 1 (satu) rangkap, dan berlaku sah sejak ditandatangani.</li>
+              <li>Dibuat di: Karawang, Rabu, 5 November 2025</li>
+            </ol>
+
+            <!-- TTD overlay -->
+            <div class="pf-deal-ttd-overlay">
+              <img src="TTD.png" alt="Tanda Tangan">
+            </div>
+
+            <div class="pf-deal-signature">
+              <div class="pf-deal-sign-box">
+                <div class="pf-deal-sign-role">Pihak Pertama</div>
+                <div class="pf-deal-sign-name">Abdul Faqih</div>
+              </div>
+
+              <div class="pf-deal-sign-box">
+                <div class="pf-deal-sign-role">Pihak Kedua</div>
+                <div class="pf-deal-sign-name" id="pfDealNamaInvestorSign">(Nama Investor)</div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
@@ -248,7 +383,12 @@
     <h2 class="view-title">Profil</h2>
 
     <div class="profil-card">
-      <img src="logofw.png" class="profil-avatar" alt="Avatar" onerror="this.style.display='none'">
+      <div class="profil-avatar-wrap">
+        <img id="profil-avatar" src="logofw.png" class="profil-avatar js-foto-profil" alt="Avatar" onerror="this.src='logofw.png'">
+        <button class="profil-avatar-edit" id="btnEditFoto" type="button">
+          <i class="fa-solid fa-camera"></i>
+        </button>
+      </div>
       <h3 id="profil-nama">Nama Investor</h3>
       <p class="muted-text" id="profil-email">email@investor.com</p>
     </div>
@@ -256,12 +396,24 @@
     <div class="card-block">
       <h3>Detail Akun</h3>
       <div class="profil-row">
-        <span>No. Telepon</span>
-        <span id="profil-telepon">-</span>
+        <span>Total Investasi</span>
+        <span id="profil-investasi">Rp 0</span>
       </div>
       <div class="profil-row">
-        <span>Bergabung Sejak</span>
-        <span id="profil-tanggal">-</span>
+        <span>Portofolio</span>
+        <span id="profil-portofolio">Rp 0</span>
+      </div>
+      <div class="profil-row">
+        <span>Aset Kepemilikan</span>
+        <span id="profil-asset">0%</span>
+      </div>
+      <div class="profil-row">
+        <span>Return</span>
+        <span id="profil-return">Rp 0</span>
+      </div>
+      <div class="profil-row">
+        <span>Rekening</span>
+        <span id="profil-rekening">-</span>
       </div>
     </div>
 
@@ -290,6 +442,39 @@
   </button>
 </nav>
 
+<!-- ================= INPUT FILE & MODAL CROP FOTO ================= -->
+<input type="file" id="fotoInput" accept="image/*" style="display:none">
+
+<div class="crop-modal" id="cropModal">
+  <div class="crop-box">
+    <div class="crop-title">Atur Foto Profil</div>
+
+    <div class="crop-canvas-wrap" id="cropCanvasWrap">
+      <canvas id="cropCanvas" width="320" height="320"></canvas>
+    </div>
+
+    <input type="range" id="cropZoom" min="1" max="3" step="0.01" value="1">
+
+    <div class="crop-actions">
+      <button id="cropCancelBtn" class="crop-btn crop-btn-secondary" type="button">Batal</button>
+      <button id="cropSaveBtn" class="crop-btn crop-btn-primary" type="button">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL KONFIRMASI LOGOUT ================= -->
+<div class="confirm-modal" id="logoutConfirmModal">
+  <div class="confirm-box">
+    <div class="confirm-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+    <div class="confirm-title">Keluar Akun?</div>
+    <div class="confirm-text">Kamu perlu login lagi buat masuk ke akun ini.</div>
+    <div class="confirm-actions">
+      <button id="logoutCancelBtn" class="confirm-btn confirm-btn-secondary" type="button">Batal</button>
+      <button id="logoutOkBtn" class="confirm-btn confirm-btn-primary" type="button">Ya, Keluar</button>
+    </div>
+  </div>
+</div>
+
 <!-- FIREBASE (dipakai untuk cek login & ambil data) -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -301,6 +486,7 @@
 <script src="penjualan.js"></script>
 <script src="portofolio.js"></script>
 <script src="profil.js"></script>
+<script src="crop.js"></script>
 
 </body>
 </html>

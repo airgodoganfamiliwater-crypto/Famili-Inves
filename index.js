@@ -93,5 +93,7 @@ auth.onAuthStateChanged(user=>{
   // simpan referensi user biar bisa dipakai file view lain
   window.currentUser = user;
 
+  if(typeof applyFotoProfilKeUI === "function") applyFotoProfilKeUI();
+
   goToView("home");
 });

@@ -320,3 +320,87 @@
 .pf-profit-red{
   color:#dc2626;
 }
+
+/* ================= PORTOFOLIO: TAB DEAL (Perjanjian) ================= */
+.pf-deal-doc{
+  position:relative;
+  font-size:.78rem;
+  line-height:1.6;
+  color:var(--text);
+}
+
+.pf-deal-logo{
+  display:block;
+  margin:0 auto 10px;
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.pf-deal-h2,
+.pf-deal-h3{
+  text-align:center;
+  margin:8px 0;
+}
+
+.pf-deal-h3{
+  margin-top:16px;
+}
+
+.pf-deal-center{
+  text-align:center;
+}
+
+.pf-deal-section-title{
+  margin-top:18px;
+  font-weight:700;
+}
+
+.pf-deal-doc ol{
+  padding-left:18px;
+  margin:5px 0 12px;
+}
+
+.pf-deal-doc p{
+  margin:8px 0;
+}
+
+/* ===== SIGNATURE ===== */
+.pf-deal-signature{
+  margin-top:36px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.pf-deal-sign-box{
+  flex:1;
+  text-align:center;
+}
+
+.pf-deal-sign-role{
+  font-weight:600;
+  margin-bottom:40px;
+  font-size:.72rem;
+  color:var(--muted);
+}
+
+.pf-deal-sign-name{
+  font-weight:700;
+  font-size:.8rem;
+}
+
+/* ===== TTD OVERLAY ===== */
+.pf-deal-ttd-overlay{
+  position:absolute;
+  bottom:0;
+  left:20px;
+  width:110px;
+  opacity:.9;
+  pointer-events:none;
+}
+
+.pf-deal-ttd-overlay img{
+  width:100%;
+}
